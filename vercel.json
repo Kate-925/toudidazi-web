@@ -1,18 +1,11 @@
 {
-  "version": 2,
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/public/index.html"
-    }
+    { "source": "/api/chat", "destination": "/chat.js" },
+    { "source": "/api/quota", "destination": "/quota.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "functions": {
-    "api/chat.js": {
-      "maxDuration": 60
-    }
+    "chat.js": { "maxDuration": 60 },
+    "quota.js": { "maxDuration": 15 }
   }
 }

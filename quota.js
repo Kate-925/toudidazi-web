@@ -1,2 +1,2 @@
-const { handleQuota } = require('../lib/core');
+const { handleQuota } = require('./core');
 module.exports = (req, res) => handleQuota(req, res);

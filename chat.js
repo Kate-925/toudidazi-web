@@ -1,2 +1,2 @@
-const { handleChat } = require('../lib/core');
+const { handleChat } = require('./core');
 module.exports = (req, res) => handleChat(req, res);
