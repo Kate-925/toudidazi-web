@@ -1,0 +1,12 @@
+{
+  "name": "toudidazi-web",
+  "version": "1.0.0",
+  "description": "offer · 投递搭子 — AI 求职排雷、打招呼语与面试助手（可部署上线版）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
