@@ -89,4 +89,168 @@ function consumeQuota(ip, deviceId, redeemCode, isVisionOcr) {
     if (!store.ips[ip]) store.ips[ip] = { used: 0, ocrUsed: 0 };
     store.devices[deviceId].ocrUsed = (store.devices[deviceId].ocrUsed || 0) + 1;
     store.ips[ip].ocrUsed = (store.ips[ip].ocrUsed || 0) + 1;
-    save
+    saveStore();
+    return getQuotaInfo(ip, deviceId, redeemCode);
+  }
+  if (redeemCode && Object.prototype.hasOwnProperty.call(codeMap, redeemCode)) {
+    if (!store.codes[redeemCode]) store.codes[redeemCode] = { used: 0 };
+    store.codes[redeemCode].used += 1;
+    saveStore();
+    return getQuotaInfo(ip, deviceId, redeemCode);
+  }
+  if (!store.devices[deviceId]) store.devices[deviceId] = { used: 0, ocrUsed: 0 };
+  if (!store.ips[ip]) store.ips[ip] = { used: 0, ocrUsed: 0 };
+  store.devices[deviceId].used = (store.devices[deviceId].used || 0) + 1;
+  store.ips[ip].used = (store.ips[ip].used || 0) + 1;
+  saveStore();
+  return getQuotaInfo(ip, deviceId, redeemCode);
+}
+
+async function readJsonBody(req) {
+  if (req.body && typeof req.body === 'object') return req.body;
+  return new Promise((resolve, reject) => {
+    let raw = '';
+    req.on('data', chunk => {
+      raw += chunk;
+      if (raw.length > 15 * 1024 * 1024) reject(new Error('请求体过大（请减少截图数量）'));
+    });
+    req.on('end', () => {
+      if (!raw) return resolve({});
+      try { resolve(JSON.parse(raw)); } catch (e) { reject(new Error('无效的 JSON 请求体')); }
+    });
+    req.on('error', reject);
+  });
+}
+
+function extractModelContent(data) {
+  if (!data || typeof data !== 'object') return '';
+  const choice = data.choices && data.choices[0];
+  if (choice) {
+    const c = choice.message && choice.message.content;
+    if (typeof c === 'string' && c.trim()) return c;
+    if (Array.isArray(c)) {
+      const joined = c.map(p => (typeof p === 'string' ? p : (p && p.text) || '')).filter(Boolean).join('\n');
+      if (joined.trim()) return joined;
+    }
+    if (typeof choice.text === 'string' && choice.text.trim()) return choice.text;
+    if (choice.message && typeof choice.message.reasoning_content === 'string' && choice.message.reasoning_content.trim()) {
+      return choice.message.reasoning_content;
+    }
+  }
+  if (typeof data.output_text === 'string' && data.output_text.trim()) return data.output_text;
+  if (data.output && typeof data.output.text === 'string' && data.output.text.trim()) return data.output.text;
+  return '';
+}
+
+async function handleQuota(req, res) {
+  setCorsHeaders(res);
+  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  const ip = getClientIp(req);
+  const deviceId = getDeviceId(req);
+  if (req.method === 'GET') return sendJson(res, 200, getQuotaInfo(ip, deviceId, getRedeemCode(req)));
+  if (req.method === 'POST') {
+    try {
+      const body = await readJsonBody(req);
+      const code = String(body.code || '').trim().toUpperCase();
+      const codeMap = parseRedeemCodes();
+      if (!code || !Object.prototype.hasOwnProperty.call(codeMap, code)) {
+        return sendJson(res, 400, { error: '兑换码不存在或格式有误' });
+      }
+      const info = getQuotaInfo(ip, deviceId, code);
+      if (info.remaining <= 0) return sendJson(res, 400, { error: '该兑换码可用次数已用完' });
+      return sendJson(res, 200, info);
+    } catch (err) {
+      return sendJson(res, 400, { error: err.message });
+    }
+  }
+  return sendJson(res, 405, { error: 'Method Not Allowed' });
+}
+
+async function handleChat(req, res) {
+  setCorsHeaders(res);
+  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (req.method !== 'POST') return sendJson(res, 405, { error: 'Method Not Allowed' });
+  if (!CONFIG.apiKey) return sendJson(res, 500, { error: '服务端尚未配置 DASHSCOPE_API_KEY' });
+
+  // 监听客户端断连（如手机端 Load failed / 切后台），断开时中止上游请求且不扣次数
+  let clientDisconnected = false;
+  const abortController = new AbortController();
+  res.on('close', () => {
+    if (!res.writableEnded) {
+      clientDisconnected = true;
+      abortController.abort();
+    }
+  });
+
+  const ip = getClientIp(req);
+  const deviceId = getDeviceId(req);
+  const redeemCode = getRedeemCode(req);
+
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { return sendJson(res, 400, { error: err.message }); }
+
+  const { messages, useVision = false, enableSearch = false, temperature = 0.4 } = body || {};
+  if (!Array.isArray(messages) || !messages.length) return sendJson(res, 400, { error: '缺少 messages 参数' });
+
+  const quotaBefore = getQuotaInfo(ip, deviceId, redeemCode);
+  if (quotaBefore.remaining <= 0) {
+    return sendJson(res, 402, { code: 'QUOTA_EXCEEDED', error: '免费体验次数已用完，请输入兑换码继续使用', quota: quotaBefore });
+  }
+
+  const targetBaseUrl = useVision ? CONFIG.visionBaseUrl : CONFIG.apiBaseUrl;
+  const model = useVision ? CONFIG.visionModel : CONFIG.textModel;
+
+  const upstreamPayload = {
+    model,
+    messages,
+    temperature: typeof temperature === 'number' ? temperature : 0.4
+  };
+  if (enableSearch && CONFIG.enableSearch && !useVision) {
+    upstreamPayload.enable_search = true;
+  }
+
+  try {
+    const upstreamRes = await fetch(targetBaseUrl + '/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + CONFIG.apiKey
+      },
+      body: JSON.stringify(upstreamPayload),
+      signal: abortController.signal
+    });
+
+    const rawText = await upstreamRes.text();
+    let data = {};
+    try { data = JSON.parse(rawText); } catch (_) {}
+
+    if (clientDisconnected || res.destroyed || res.writableEnded) {
+      return;
+    }
+
+    if (!upstreamRes.ok) {
+      const errMsg = (data.error && data.error.message) || `上游接口报错 (${upstreamRes.status}): ${rawText.slice(0, 120)}`;
+      return sendJson(res, 502, { error: errMsg });
+    }
+
+    const content = extractModelContent(data);
+    if (!content) {
+      return sendJson(res, 502, { error: `模型[${model}]返回空内容，原始响应: ${rawText.slice(0, 160)}` });
+    }
+
+    // 最终确认客户端仍在线，再扣减次数
+    if (clientDisconnected || res.destroyed || res.writableEnded) {
+      return;
+    }
+
+    const quotaAfter = consumeQuota(ip, deviceId, redeemCode, useVision);
+    return sendJson(res, 200, { content, quota: quotaAfter });
+  } catch (err) {
+    if (clientDisconnected || err.name === 'AbortError') {
+      return;
+    }
+    return sendJson(res, 500, { error: '调用 AI 服务失败：' + err.message });
+  }
+}
+
+module.exports = { handleChat, handleQuota, CONFIG };
