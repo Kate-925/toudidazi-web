@@ -12,7 +12,6 @@ const CONFIG = {
   dataFile: process.env.DATA_FILE || '/tmp/toudidazi_usage_store.json'
 };
 
-// Parse REDEEM_CODES env: e.g. "OFFER2026:10,VIP888:50,TEST01:5"
 function parseRedeemCodes() {
   const raw = process.env.REDEEM_CODES || '';
   const map = {};
@@ -27,11 +26,10 @@ function parseRedeemCodes() {
   return map;
 }
 
-// Lightweight store (memory + optional /tmp JSON persistence)
 let store = {
-  devices: {}, // deviceId -> { used: number, ocrUsed: number }
-  ips: {},     // ip -> { used: number, ocrUsed: number }
-  codes: {}    // CODE -> { used: number }
+  devices: {},
+  ips: {},
+  codes: {}
 };
 
 function loadStore() {
@@ -104,7 +102,6 @@ function getQuotaInfo(ip, deviceId, redeemCode) {
 
   const devUsed = (store.devices[deviceId] && store.devices[deviceId].used) || 0;
   const ipUsed = (store.ips[ip] && store.ips[ip].used) || 0;
-  // Take max of device usage and IP usage so clearing localStorage cannot bypass free trial
   const effectiveUsed = Math.max(devUsed, ipUsed);
   const remaining = Math.max(0, CONFIG.freeTrialCount - effectiveUsed);
   return {
@@ -117,7 +114,6 @@ function getQuotaInfo(ip, deviceId, redeemCode) {
 function consumeQuota(ip, deviceId, redeemCode, isVisionOcr) {
   const codeMap = parseRedeemCodes();
   if (isVisionOcr) {
-    // OCR does not deduct main quota, only tracks anti-abuse counter
     if (!store.devices[deviceId]) store.devices[deviceId] = { used: 0, ocrUsed: 0 };
     if (!store.ips[ip]) store.ips[ip] = { used: 0, ocrUsed: 0 };
     store.devices[deviceId].ocrUsed = (store.devices[deviceId].ocrUsed || 0) + 1;
@@ -161,6 +157,46 @@ async function readJsonBody(req) {
     });
     req.on('error', reject);
   });
+}
+
+function normalizeContent(rawVal) {
+  if (!rawVal) return '';
+  if (typeof rawVal === 'string') return rawVal;
+  if (Array.isArray(rawVal)) {
+    return rawVal
+      .map(part => {
+        if (!part) return '';
+        if (typeof part === 'string') return part;
+        if (typeof part.text === 'string') return part.text;
+        if (part.image_url && typeof part.image_url.url === 'string') return part.image_url.url;
+        return '';
+      })
+      .filter(Boolean)
+      .join('\n');
+  }
+  if (typeof rawVal === 'object') {
+    if (typeof rawVal.text === 'string') return rawVal.text;
+    if (typeof rawVal.content === 'string') return rawVal.content;
+  }
+  return '';
+}
+
+function extractModelContent(data) {
+  if (!data || typeof data !== 'object') return '';
+  const choice = data.choices && data.choices[0];
+  if (choice) {
+    const msgContent = normalizeContent(choice.message && choice.message.content);
+    if (msgContent && msgContent.trim()) return msgContent;
+    if (typeof choice.text === 'string' && choice.text.trim()) return choice.text;
+    const deltaContent = normalizeContent(choice.delta && choice.delta.content);
+    if (deltaContent && deltaContent.trim()) return deltaContent;
+    if (choice.message && typeof choice.message.reasoning_content === 'string' && choice.message.reasoning_content.trim()) {
+      return choice.message.reasoning_content;
+    }
+  }
+  if (typeof data.output_text === 'string' && data.output_text.trim()) return data.output_text;
+  if (data.output && typeof data.output.text === 'string' && data.output.text.trim()) return data.output.text;
+  return '';
 }
 
 async function handleQuota(req, res) {
@@ -230,7 +266,6 @@ async function handleChat(req, res) {
     return sendJson(res, 400, { error: '缺少有效的 messages 参数' });
   }
 
-  // Check quota before calling upstream AI
   const quotaBefore = getQuotaInfo(ip, deviceId, redeemCode);
   if (quotaBefore.remaining <= 0) {
     return sendJson(res, 402, {
@@ -240,7 +275,6 @@ async function handleChat(req, res) {
     });
   }
 
-  // Anti-abuse check for OCR
   if (useVision) {
     const ipOcr = (store.ips[ip] && store.ips[ip].ocrUsed) || 0;
     if (!quotaBefore.codeActive && ipOcr >= CONFIG.maxDailyOcrPerUser) {
@@ -274,12 +308,17 @@ async function handleChat(req, res) {
       return sendJson(res, 502, { error: errMsg });
     }
 
-    const content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    const content = extractModelContent(data);
     if (!content) {
-      return sendJson(res, 502, { error: 'AI 未返回有效内容，请重试' });
+      console.error('Empty model response structure:', JSON.stringify({
+        model,
+        useVision,
+        keys: Object.keys(data || {}),
+        choiceKeys: data && data.choices && data.choices[0] ? Object.keys(data.choices[0]) : []
+      }));
+      return sendJson(res, 502, { error: `模型（${model}）返回空内容，请检查模型名称或稍后重试` });
     }
 
-    // Deduct quota only after successful AI response
     const quotaAfter = consumeQuota(ip, deviceId, redeemCode, useVision);
     return sendJson(res, 200, {
       content,
