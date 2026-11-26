@@ -1,11 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/api/chat", "destination": "/chat.js" },
-    { "source": "/api/quota", "destination": "/quota.js" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
   "functions": {
-    "chat.js": { "maxDuration": 60 },
-    "quota.js": { "maxDuration": 15 }
+    "api/chat.js": { "maxDuration": 60 },
+    "api/quota.js": { "maxDuration": 15 }
   }
 }
