@@ -8,10 +8,10 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
   <style>
     :root {
-      --bg: #FBF7F0;
-      --surface: rgba(255, 255, 255, 0.78);
+      --bg: #FAF6F0;
+      --surface: rgba(255, 255, 255, 0.8);
       --surface-solid: #FFFFFF;
-      --surface-soft: rgba(255, 255, 255, 0.56);
+      --surface-soft: rgba(255, 255, 255, 0.58);
       --ink: #18181B;
       --text-muted: #52525B;
       --highlight: #FEF08A;
@@ -48,12 +48,12 @@
       min-height: 100vh;
     }
 
-    /* ===== Apple Mesh Fluid Gradient Background ===== */
+    /* ===== Morandi Cream Fluid Background ===== */
     .ambient-bg {
       position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
-      background: linear-gradient(125deg, #FBF7F0 0%, #FFF3E2 50%, #F4F7FB 100%);
-      background-size: 200% 200%;
-      animation: baseFlow 12s ease-in-out infinite alternate;
+      background: linear-gradient(125deg, #FAF6F0 0%, #F5EFE6 50%, #F1F4F7 100%);
+      background-size: 240% 240%;
+      animation: baseFlow 8s ease-in-out infinite alternate;
     }
     @keyframes baseFlow {
       0% { background-position: 0% 50%; }
@@ -61,49 +61,44 @@
     }
     .mesh-blob {
       position: absolute; border-radius: 50%;
-      filter: blur(68px); opacity: 0.78;
-      mix-blend-mode: multiply;
+      filter: blur(52px); opacity: 0.62;
       will-change: transform;
     }
     .mesh-1 {
-      width: 68vmax; height: 68vmax; top: -22%; left: -18%;
-      background: radial-gradient(circle at 40% 40%, #FDE68A 0%, #FDBA74 45%, rgba(253, 186, 116, 0) 72%);
-      animation: fluidMove1 11s ease-in-out infinite alternate;
+      width: 56vmax; height: 56vmax; top: -16%; left: -12%;
+      background: radial-gradient(circle, #F3D5A5 0%, #E8C59B 52%, rgba(232, 197, 155, 0) 76%);
+      animation: fluidMove1 7.5s ease-in-out infinite alternate;
     }
     .mesh-2 {
-      width: 62vmax; height: 62vmax; top: 10%; right: -20%;
-      background: radial-gradient(circle at 50% 50%, #FECDD3 0%, #FDA4AF 42%, rgba(253, 164, 175, 0) 72%);
-      animation: fluidMove2 13s ease-in-out infinite alternate;
+      width: 52vmax; height: 52vmax; top: 6%; right: -16%;
+      background: radial-gradient(circle, #ECC4C8 0%, #DDAEB4 50%, rgba(221, 174, 180, 0) 76%);
+      animation: fluidMove2 8.5s ease-in-out infinite alternate;
     }
     .mesh-3 {
-      width: 65vmax; height: 65vmax; bottom: -25%; left: 10%;
-      background: radial-gradient(circle at 50% 50%, #BAE6FD 0%, #93C5FD 45%, rgba(147, 197, 253, 0) 72%);
-      animation: fluidMove3 12s ease-in-out infinite alternate;
+      width: 55vmax; height: 55vmax; bottom: -20%; left: 14%;
+      background: radial-gradient(circle, #C4D6E4 0%, #AFC5D6 52%, rgba(175, 197, 214, 0) 76%);
+      animation: fluidMove3 8s ease-in-out infinite alternate;
     }
     .mesh-4 {
-      width: 52vmax; height: 52vmax; bottom: 5%; right: 5%;
-      background: radial-gradient(circle at 50% 50%, #E9D5FF 0%, #DDD6FE 40%, rgba(221, 214, 254, 0) 70%);
-      animation: fluidMove4 10s ease-in-out infinite alternate;
+      width: 46vmax; height: 46vmax; bottom: 2%; right: 6%;
+      background: radial-gradient(circle, #D8CEE2 0%, #C6BBD4 48%, rgba(198, 187, 212, 0) 74%);
+      animation: fluidMove4 7s ease-in-out infinite alternate;
     }
     @keyframes fluidMove1 {
-      0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
-      50%  { transform: translate(22vw, 14vh) scale(1.16) rotate(25deg); }
-      100% { transform: translate(8vw, 28vh) scale(0.95) rotate(-15deg); }
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(32vw, 22vh) scale(1.16); }
     }
     @keyframes fluidMove2 {
-      0%   { transform: translate(0, 0) scale(1.05) rotate(0deg); }
-      50%  { transform: translate(-24vw, 18vh) scale(0.92) rotate(-30deg); }
-      100% { transform: translate(-12vw, -14vh) scale(1.15) rotate(20deg); }
+      0%   { transform: translate(0, 0) scale(1.08); }
+      100% { transform: translate(-32vw, 26vh) scale(0.92); }
     }
     @keyframes fluidMove3 {
-      0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
-      50%  { transform: translate(20vw, -22vh) scale(1.18) rotate(20deg); }
-      100% { transform: translate(-10vw, -10vh) scale(0.95) rotate(-25deg); }
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(26vw, -30vh) scale(1.18); }
     }
     @keyframes fluidMove4 {
-      0%   { transform: translate(0, 0) scale(0.95); }
-      50%  { transform: translate(-20vw, -18vh) scale(1.2); }
-      100% { transform: translate(10vw, -26vh) scale(1.02); }
+      0%   { transform: translate(0, 0) scale(0.96); }
+      100% { transform: translate(-28vw, -24vh) scale(1.14); }
     }
 
     /* ===== iOS Dynamic Island ===== */
@@ -135,7 +130,7 @@
     /* ===== Top Frosted Glass + Black Border Nav ===== */
     .topbar {
       position: sticky; top: 0; z-index: 40;
-      background: rgba(255, 255, 255, 0.68);
+      background: rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(22px) saturate(160%);
       -webkit-backdrop-filter: blur(22px) saturate(160%);
       border-bottom: 2px solid var(--ink);
@@ -160,7 +155,7 @@
 
     .nav-links {
       display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.55); border: 1.5px solid var(--ink);
+      background: rgba(255, 255, 255, 0.58); border: 1.5px solid var(--ink);
       padding: 4px; border-radius: 13px;
     }
     .nav-btn {
@@ -177,7 +172,7 @@
 
     .nav-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .pill-btn {
-      border: 2px solid var(--ink); background: rgba(255, 255, 255, 0.85);
+      border: 2px solid var(--ink); background: rgba(255, 255, 255, 0.86);
       backdrop-filter: blur(12px); color: var(--ink);
       font-size: 12.5px; font-weight: 800; padding: 6px 13px; border-radius: 999px;
       cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
@@ -277,9 +272,9 @@
       padding: 15px 17px; margin-bottom: 12px;
       transition: background 0.18s, transform 0.18s;
     }
-    .sub-card:hover { background: rgba(255, 255, 255, 0.88); }
+    .sub-card:hover { background: rgba(255, 255, 255, 0.9); }
     .sub-card.highlight-box {
-      background: rgba(254, 249, 195, 0.72);
+      background: rgba(254, 249, 195, 0.76);
       border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink);
     }
 
@@ -295,7 +290,7 @@
     /* iOS Sliding Segmented Control with Crisp Black Line */
     .seg-tabs {
       position: relative; display: grid; grid-template-columns: repeat(2, 1fr);
-      background: rgba(255, 255, 255, 0.55); border: 2px solid var(--ink);
+      background: rgba(255, 255, 255, 0.58); border: 2px solid var(--ink);
       padding: 4px; border-radius: 14px; margin-bottom: 16px;
     }
     .seg-slider {
@@ -316,7 +311,7 @@
     input[type="text"], input[type="email"], input[type="password"], textarea, select {
       width: 100%; border: 2px solid var(--ink); border-radius: var(--radius-md);
       padding: 10px 13px; font-size: 14px; font-family: inherit;
-      color: var(--ink); background: rgba(255, 255, 255, 0.82); outline: none;
+      color: var(--ink); background: rgba(255, 255, 255, 0.84); outline: none;
       transition: background 0.18s, box-shadow 0.18s;
     }
     input:focus, textarea:focus, select:focus {
@@ -344,7 +339,7 @@
     /* Dropzone */
     .dropzone {
       border: 2px dashed var(--ink); border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.55); padding: 22px 16px;
+      background: rgba(255, 255, 255, 0.58); padding: 22px 16px;
       text-align: center; cursor: pointer;
       transition: all 0.2s var(--spring);
     }
@@ -372,7 +367,7 @@
     .img-thumb-del:hover { background: #FB7185; color: #FFF; }
 
     .resume-strip {
-      background: rgba(255, 255, 255, 0.62); border: 2px solid var(--ink);
+      background: rgba(255, 255, 255, 0.65); border: 2px solid var(--ink);
       border-radius: var(--radius-lg); padding: 13px 15px;
       display: flex; align-items: center; justify-content: space-between;
       gap: 10px; flex-wrap: wrap;
@@ -452,7 +447,7 @@
 
     .loading-panel {
       padding: 34px 20px; text-align: center;
-      background: rgba(254, 249, 195, 0.65); border-radius: var(--radius-lg);
+      background: rgba(254, 249, 195, 0.68); border-radius: var(--radius-lg);
       border: 2px dashed var(--ink);
     }
     .skeleton-line {
@@ -468,13 +463,13 @@
       padding: 15px 18px; margin-bottom: 16px; box-shadow: 3px 3px 0 var(--ink);
     }
     .jd-body {
-      margin-top: 10px; padding: 13px 15px; background: rgba(255, 255, 255, 0.72);
+      margin-top: 10px; padding: 13px 15px; background: rgba(255, 255, 255, 0.74);
       border: 1.5px dashed var(--ink); border-radius: var(--radius-md);
       font-size: 13.5px; white-space: pre-wrap; max-height: 200px; overflow-y: auto; color: #3F3F46;
     }
 
     .pitch-box {
-      margin-top: 12px; padding: 13px 15px; background: rgba(224, 242, 254, 0.72);
+      margin-top: 12px; padding: 13px 15px; background: rgba(224, 242, 254, 0.74);
       border: 1.5px solid var(--ink); border-left: 5px solid var(--ink); border-radius: 10px;
     }
     .tag {
@@ -582,7 +577,7 @@
 </head>
 <body>
 
-  <!-- Apple Mesh Fluid Gradient Background -->
+  <!-- Morandi Cream Fluid Background -->
   <div class="ambient-bg" aria-hidden="true">
     <div class="mesh-blob mesh-1"></div>
     <div class="mesh-blob mesh-2"></div>
