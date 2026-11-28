@@ -3,46 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>offer · 投递搭子 — AI 岗位解析、简历微调、自我介绍与面试助手</title>
+  <title>offer · 投递搭子 — 手账风 AI 岗位解析、简历微调、自我介绍与面试助手</title>
   <!-- 浏览器端文档解析库：PDF.js & Mammoth.js (DOCX) -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
   <style>
     :root {
-      --bg: #F6F5F0;
+      --bg: #FAF7F0;
       --surface: #FFFFFF;
-      --surface-soft: #FAFAF7;
-      --border: #E5E3DC;
-      --border-strong: #D1CEC4;
+      --surface-soft: #FDFBF7;
+      --ink: #1E293B;
+      --border: #1E293B;
+      --border-soft: #CBD5E1;
       --text: #1E293B;
-      --text-muted: #64748B;
+      --text-muted: #526071;
       --primary: #1E293B;
       --primary-hover: #0F172A;
       --highlight: #FEF08A;
       --highlight-strong: #FDE047;
-      --warn-bg: #FFFBEB;
-      --warn-border: #FDE68A;
+      --accent-pink: #FBCFE8;
+      --accent-blue: #DBEAFE;
+      --accent-mint: #D1FAE5;
+      --warn-bg: #FEF3C7;
+      --warn-border: #D97706;
       --warn-text: #92400E;
-      --ok-bg: #ECFDF5;
-      --ok-border: #A7F3D0;
+      --ok-bg: #D1FAE5;
+      --ok-border: #059669;
       --ok-text: #065F46;
-      --danger-bg: #FEF2F2;
-      --danger-border: #FECACA;
+      --danger-bg: #FEE2E2;
+      --danger-border: #DC2626;
       --danger-text: #991B1B;
-      --pill-bg: #FFF7ED;
-      --pill-border: #FDBA74;
+      --pill-bg: #FFEDD5;
+      --pill-border: #EA580C;
       --pill-text: #C2410C;
-      --radius: 14px;
-      --radius-sm: 10px;
-      --shadow: 0 2px 10px rgba(30, 41, 59, 0.04);
-      --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+      --radius: 16px;
+      --radius-sm: 11px;
+      --shadow-hard: 4px 4px 0px #1E293B;
+      --shadow-hard-sm: 2px 2px 0px #1E293B;
+      --shadow-lg: 6px 6px 0px #1E293B;
     }
 
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image: radial-gradient(#D6D1C4 1.15px, transparent 1.15px);
+      background-size: 20px 20px;
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
@@ -53,9 +60,9 @@
       position: sticky;
       top: 0;
       z-index: 40;
-      background: rgba(246, 245, 240, 0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(250, 247, 240, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid var(--ink);
     }
     .topbar-inner {
       max-width: 1180px;
@@ -71,47 +78,56 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 800;
-      font-size: 18px;
+      font-weight: 900;
+      font-size: 19px;
       letter-spacing: -0.3px;
       cursor: pointer;
     }
     .brand-badge {
       height: 32px;
-      padding: 0 10px;
+      padding: 0 11px;
       border-radius: 9px;
-      background: var(--primary);
-      color: #FEF08A;
+      background: var(--highlight-strong);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       font-weight: 900;
-      letter-spacing: 0.2px;
+      transform: rotate(-3deg);
+      transition: transform 0.15s;
     }
+    .brand:hover .brand-badge { transform: rotate(2deg) scale(1.04); }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       flex-wrap: wrap;
     }
     .nav-btn {
-      border: none;
+      border: 2px solid transparent;
       background: transparent;
       color: var(--text-muted);
       font-size: 14px;
-      font-weight: 600;
-      padding: 8px 13px;
-      border-radius: 9px;
+      font-weight: 700;
+      padding: 7px 13px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.12s;
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
-    .nav-btn:hover { background: rgba(30, 41, 59, 0.06); color: var(--text); }
-    .nav-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .nav-btn:hover { color: var(--ink); background: rgba(254, 240, 138, 0.45); }
+    .nav-btn.active {
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
 
     .nav-actions {
       display: flex;
@@ -119,24 +135,27 @@
       gap: 8px;
     }
     .pill-btn {
-      border: 1px solid var(--border-strong);
+      border: 2px solid var(--ink);
       background: var(--surface);
-      color: var(--text);
+      color: var(--ink);
       font-size: 13px;
-      font-weight: 600;
-      padding: 7px 12px;
+      font-weight: 700;
+      padding: 6px 12px;
       border-radius: 999px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.15s;
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: transform 0.1s, box-shadow 0.1s;
     }
-    .pill-btn:hover { border-color: var(--primary); }
+    .pill-btn:hover { background: var(--highlight); }
+    .pill-btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
     .dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
+      border: 1.5px solid var(--ink);
       background: #94A3B8;
       display: inline-block;
     }
@@ -147,7 +166,7 @@
     .container {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 24px 20px 64px;
+      padding: 26px 20px 72px;
     }
     .view { display: none; }
     .view.active { display: block; }
@@ -165,49 +184,68 @@
       .home-right { order: 1; }
     }
 
+    .sticker-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-pink);
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 800;
+      transform: rotate(-1.5deg);
+      margin-bottom: 10px;
+    }
+
     .hero-title {
       font-size: 32px;
-      font-weight: 850;
-      line-height: 1.28;
-      margin: 8px 0 12px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin: 6px 0 18px;
       letter-spacing: -0.5px;
     }
     .mark {
-      background: linear-gradient(180deg, transparent 52%, var(--highlight) 52%);
-      padding: 0 4px;
+      background: linear-gradient(180deg, transparent 48%, var(--highlight-strong) 48%);
+      padding: 0 5px;
     }
 
     .value-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 2px solid var(--ink);
       border-radius: var(--radius);
-      padding: 16px 18px;
-      margin-bottom: 12px;
+      padding: 15px 17px;
+      margin-bottom: 13px;
       display: flex;
       gap: 14px;
       align-items: flex-start;
-      box-shadow: var(--shadow);
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: transform 0.15s;
     }
+    .value-card:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
     .value-num {
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
+      border-radius: 8px;
+      background: var(--highlight);
+      border: 2px solid var(--ink);
+      color: var(--ink);
       flex-shrink: 0;
+      transform: rotate(-3deg);
     }
-    .value-card h4 { margin: 0 0 4px; font-size: 15px; }
+    .value-card:nth-child(even) .value-num { background: var(--accent-blue); transform: rotate(2deg); }
+    .value-card h4 { margin: 0 0 4px; font-size: 15px; font-weight: 800; }
     .value-card p { margin: 0; font-size: 13px; color: var(--text-muted); }
 
     /* Cards & Form Controls */
     .card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 2px solid var(--ink);
       border-radius: var(--radius);
       padding: 22px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-hard);
     }
     .step-header {
       display: flex;
@@ -217,100 +255,110 @@
     }
     .step-tag {
       font-size: 12px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 6px;
-      background: #991B1B;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 8px;
+      background: #F43F5E;
       color: #FFF;
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      transform: rotate(-2deg);
     }
-    .step-tag.s2 { background: #CA8A04; }
-    .step-title { font-weight: 800; font-size: 16px; margin: 0; }
+    .step-tag.s2 { background: #F59E0B; color: var(--ink); transform: rotate(1.5deg); }
+    .step-title { font-weight: 900; font-size: 16px; margin: 0; }
 
     .seg-tabs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
-      background: var(--bg);
+      background: #F1ECE1;
+      border: 2px solid var(--ink);
       padding: 4px;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 14px;
     }
     .seg-btn {
-      border: none;
+      border: 2px solid transparent;
       background: transparent;
       padding: 8px 6px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-muted);
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.12s;
     }
     .seg-btn.active {
-      background: var(--surface);
-      color: var(--text);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      background: var(--highlight);
+      color: var(--ink);
+      border-color: var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
     }
 
     input[type="text"], input[type="password"], input[type="url"], textarea, select {
       width: 100%;
-      border: 1px solid var(--border-strong);
+      border: 2px solid var(--ink);
       border-radius: var(--radius-sm);
-      padding: 11px 13px;
+      padding: 10px 13px;
       font-size: 14px;
       font-family: inherit;
-      color: var(--text);
+      color: var(--ink);
       background: var(--surface-soft);
       outline: none;
-      transition: border-color 0.15s, background 0.15s;
+      transition: background 0.15s, box-shadow 0.15s;
     }
     input:focus, textarea:focus, select:focus {
-      border-color: var(--primary);
       background: #FFF;
+      box-shadow: 3px 3px 0 var(--highlight-strong);
     }
     textarea { resize: vertical; min-height: 120px; }
 
     .btn {
-      border: none;
+      border: 2px solid var(--ink);
       border-radius: var(--radius-sm);
-      padding: 11px 18px;
+      padding: 10px 18px;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.15s;
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: transform 0.1s, box-shadow 0.1s, background 0.12s;
+    }
+    .btn:active:not(:disabled) {
+      transform: translate(3px, 3px);
+      box-shadow: 0 0 0 var(--ink);
     }
     .btn-primary {
       background: var(--primary);
-      color: #FFF;
+      color: #FEF08A;
     }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-primary:disabled { opacity: 0.65; cursor: not-allowed; }
+    .btn-primary:hover:not(:disabled) { background: #0F172A; }
+    .btn-primary:disabled { opacity: 0.75; cursor: not-allowed; box-shadow: 1px 1px 0 var(--ink); }
     .btn-outline {
       background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border-strong);
+      color: var(--ink);
     }
-    .btn-outline:hover { border-color: var(--primary); background: var(--surface-soft); }
-    .btn-sm { padding: 6px 12px; font-size: 12.5px; border-radius: 8px; }
-    .btn-block { width: 100%; padding: 13px 18px; font-size: 15px; }
+    .btn-outline:hover:not(:disabled) { background: var(--highlight); }
+    .btn-sm { padding: 6px 12px; font-size: 12.5px; border-radius: 9px; box-shadow: 2px 2px 0 var(--ink); }
+    .btn-sm:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+    .btn-block { width: 100%; padding: 13px 18px; font-size: 15.5px; }
 
     /* Dropzone */
     .dropzone {
-      border: 2px dashed var(--border-strong);
+      border: 2px dashed var(--ink);
       border-radius: var(--radius-sm);
-      background: var(--surface-soft);
+      background: #FDFBF5;
       padding: 22px 16px;
       text-align: center;
       cursor: pointer;
       transition: all 0.15s;
     }
     .dropzone:hover, .dropzone.dragover {
-      border-color: var(--primary);
-      background: #FFF;
+      background: #FEFCE8;
+      box-shadow: 3px 3px 0 var(--ink);
     }
     .img-gallery {
       display: grid;
@@ -321,29 +369,26 @@
     }
     .img-thumb-card {
       position: relative;
-      border: 1px solid var(--border-strong);
+      border: 2px solid var(--ink);
       border-radius: 9px;
       overflow: hidden;
       background: #FFF;
       aspect-ratio: 4 / 5;
+      box-shadow: 2px 2px 0 var(--ink);
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .img-thumb-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .img-thumb-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .img-thumb-badge {
       position: absolute;
       left: 5px;
       bottom: 5px;
-      background: rgba(15, 23, 42, 0.78);
-      color: #FFF;
+      background: var(--highlight);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       padding: 1px 6px;
       border-radius: 5px;
     }
@@ -354,36 +399,39 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      border: none;
-      background: rgba(15, 23, 42, 0.78);
-      color: #FFF;
+      border: 1.5px solid var(--ink);
+      background: #FFF;
+      color: var(--ink);
       font-size: 13px;
+      font-weight: 900;
       line-height: 1;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .img-thumb-del:hover { background: #DC2626; }
+    .img-thumb-del:hover { background: #F43F5E; color: #FFF; }
 
     .notice-box {
       border-radius: var(--radius-sm);
+      border: 2px solid var(--ink);
       padding: 11px 13px;
       font-size: 13px;
       margin-top: 10px;
       display: flex;
       align-items: flex-start;
       gap: 8px;
+      box-shadow: 2px 2px 0 var(--ink);
     }
-    .notice-warn { background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-text); }
-    .notice-ok { background: var(--ok-bg); border: 1px solid var(--ok-border); color: var(--ok-text); }
-    .notice-err { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger-text); }
+    .notice-warn { background: var(--warn-bg); color: var(--warn-text); }
+    .notice-ok { background: var(--ok-bg); color: var(--ok-text); }
+    .notice-err { background: var(--danger-bg); color: var(--danger-text); }
     .hidden { display: none !important; }
 
     /* Resume summary strip */
     .resume-strip {
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
+      background: #F4F1EA;
+      border: 2px solid var(--ink);
       border-radius: var(--radius-sm);
       padding: 12px 14px;
       display: flex;
@@ -393,7 +441,30 @@
       flex-wrap: wrap;
     }
 
-    /* Result View */
+    /* Chatter / Waiting Banner */
+    .chatter-box {
+      margin-top: 12px;
+      background: #FEFCE8;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 3px 3px 0 var(--ink);
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+    .chatter-avatar {
+      font-size: 20px;
+      animation: bounceBuddy 1.2s ease-in-out infinite;
+    }
+    @keyframes bounceBuddy {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50% { transform: translateY(-4px) rotate(4deg); }
+    }
+
+    /* Result View & Dynamic Stamp */
     .result-topbar {
       display: flex;
       align-items: center;
@@ -403,31 +474,66 @@
       margin-bottom: 16px;
     }
     .score-card {
+      position: relative;
+      overflow: hidden;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 2px solid var(--ink);
       border-radius: var(--radius);
-      padding: 20px 22px;
+      padding: 22px 24px;
       display: flex;
       gap: 22px;
       align-items: center;
       flex-wrap: wrap;
       margin-bottom: 16px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-hard);
     }
     .score-circle {
-      width: 84px;
-      height: 84px;
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
       background: var(--highlight);
-      border: 3px solid var(--primary);
+      border: 3px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    .score-circle strong { font-size: 28px; line-height: 1; }
-    .score-circle span { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+    .score-circle strong { font-size: 30px; line-height: 1; font-weight: 900; }
+    .score-circle span { font-size: 11px; font-weight: 800; color: var(--ink); margin-top: 2px; }
+
+    /* Retro Stamp Animation */
+    .verdict-stamp {
+      position: absolute;
+      right: 22px;
+      top: 16px;
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 3px double currentColor;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      transform: rotate(-10deg);
+      pointer-events: none;
+      opacity: 0;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.88);
+    }
+    .verdict-stamp.stamp-go { color: #059669; }
+    .verdict-stamp.stamp-try { color: #D97706; }
+    .verdict-stamp.stamp-wait { color: #DC2626; }
+    .verdict-stamp.animate {
+      animation: stampSlam 0.45s cubic-bezier(0.22, 1.35, 0.36, 1) forwards;
+    }
+    @keyframes stampSlam {
+      0% { opacity: 0; transform: scale(2.4) rotate(-24deg); }
+      70% { opacity: 1; transform: scale(0.92) rotate(-8deg); }
+      100% { opacity: 0.94; transform: scale(1) rotate(-10deg); }
+    }
+    @media (max-width: 640px) {
+      .verdict-stamp { position: static; display: inline-block; margin-top: 8px; }
+    }
 
     .score-bar-row {
       display: flex;
@@ -438,31 +544,33 @@
       font-size: 13.5px;
     }
     .score-bar-track {
-      height: 7px;
-      background: #E2E8F0;
+      height: 10px;
+      background: #F1ECE1;
+      border: 1.5px solid var(--ink);
       border-radius: 999px;
       overflow: hidden;
       margin-bottom: 6px;
     }
     .score-bar-fill {
       height: 100%;
-      background: var(--primary);
+      background: var(--highlight-strong);
+      border-right: 1.5px solid var(--ink);
       border-radius: 999px;
     }
 
     .jd-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 2px solid var(--ink);
       border-radius: var(--radius);
       padding: 16px 20px;
       margin-bottom: 18px;
-      box-shadow: var(--shadow);
+      box-shadow: 3px 3px 0 var(--ink);
     }
     .jd-body {
       margin-top: 10px;
       padding: 12px 14px;
       background: var(--surface-soft);
-      border: 1px solid var(--border);
+      border: 1.5px dashed var(--ink);
       border-radius: var(--radius-sm);
       font-size: 13.5px;
       white-space: pre-wrap;
@@ -476,46 +584,53 @@
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
+      padding-bottom: 4px;
     }
     .rtab {
-      border: 1px solid var(--border);
+      border: 2px solid var(--ink);
       background: var(--surface);
-      color: var(--text-muted);
+      color: var(--ink);
       font-size: 13.5px;
-      font-weight: 700;
-      padding: 9px 15px;
-      border-radius: 10px;
+      font-weight: 800;
+      padding: 8px 15px;
+      border-radius: 11px;
       cursor: pointer;
-      transition: all 0.15s;
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: all 0.12s;
     }
-    .rtab:hover { border-color: var(--primary); color: var(--text); }
-    .rtab.active { background: var(--primary); color: #FFF; border-color: var(--primary); }
+    .rtab:hover { background: var(--highlight); }
+    .rtab.active {
+      background: var(--ink);
+      color: #FEF08A;
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 var(--ink);
+    }
 
     .sub-card {
       background: var(--surface-soft);
-      border: 1px solid var(--border);
+      border: 2px solid var(--ink);
       border-radius: var(--radius-sm);
       padding: 16px;
       margin-bottom: 12px;
+      box-shadow: 2px 2px 0 var(--ink);
     }
     .pitch-box {
       margin-top: 12px;
       padding: 12px 14px;
-      background: #F8FAFC;
-      border: 1px solid #CBD5E1;
-      border-left: 3px solid var(--primary);
-      border-radius: 8px;
+      background: #EFF6FF;
+      border: 2px solid var(--ink);
+      border-left: 5px solid var(--ink);
+      border-radius: 9px;
     }
     .tag {
       display: inline-block;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       padding: 2px 9px;
       border-radius: 999px;
-      background: #E2E8F0;
-      color: var(--text);
+      border: 1.5px solid var(--ink);
+      background: #F1F5F9;
+      color: var(--ink);
     }
     .tag.yellow { background: var(--highlight); }
     .tag.green { background: var(--ok-bg); color: var(--ok-text); }
@@ -526,20 +641,21 @@
       align-items: center;
       gap: 4px;
       font-size: 12px;
-      font-weight: 700;
-      padding: 2px 9px;
+      font-weight: 800;
+      padding: 2px 10px;
       border-radius: 999px;
-      background: #EEF2FF;
-      color: #3730A3;
+      border: 1.5px solid var(--ink);
+      background: var(--accent-blue);
+      color: var(--ink);
     }
 
     /* Editable Placeholder Pill */
     .edit-pill {
       display: inline-block;
       background: var(--pill-bg);
-      border: 1px dashed var(--pill-border);
+      border: 1.5px dashed var(--pill-border);
       color: var(--pill-text);
-      font-weight: 700;
+      font-weight: 800;
       padding: 1px 7px;
       border-radius: 6px;
       margin: 0 2px;
@@ -547,9 +663,8 @@
       outline: none;
     }
     .edit-pill:focus {
-      background: #FFEDD5;
+      background: #FED7AA;
       border-style: solid;
-      border-color: #EA580C;
     }
 
     /* Experience Level Chips (5 options) */
@@ -562,29 +677,31 @@
       .exp-chip-group { grid-template-columns: repeat(2, 1fr); }
     }
     .exp-chip {
-      border: 1px solid var(--border-strong);
-      background: var(--surface-soft);
-      color: var(--text);
+      border: 2px solid var(--ink);
+      background: var(--surface);
+      color: var(--ink);
       padding: 8px 6px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       text-align: center;
-      transition: all 0.15s;
+      box-shadow: 2px 2px 0 var(--ink);
+      transition: all 0.1s;
     }
-    .exp-chip:hover { border-color: var(--primary); background: #FFF; }
+    .exp-chip:hover { background: var(--highlight); }
     .exp-chip.active {
-      background: var(--primary);
+      background: var(--ink);
       color: #FEF08A;
-      border-color: var(--primary);
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 var(--ink);
     }
 
     /* Drawer & Modal */
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.45);
+      background: rgba(15, 23, 42, 0.5);
       backdrop-filter: blur(3px);
       z-index: 60;
       display: none;
@@ -595,7 +712,8 @@
     .overlay.open { display: flex; }
     .modal {
       background: var(--surface);
-      border-radius: 16px;
+      border: 2px solid var(--ink);
+      border-radius: 18px;
       width: 100%;
       max-width: 600px;
       max-height: 90vh;
@@ -606,7 +724,7 @@
     .drawer-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(15, 23, 42, 0.45);
       z-index: 60;
       display: none;
       justify-content: flex-end;
@@ -614,19 +732,19 @@
     .drawer-overlay.open { display: flex; }
     .drawer {
       background: var(--surface);
+      border-left: 2px solid var(--ink);
       width: 100%;
       max-width: 520px;
       height: 100%;
       overflow-y: auto;
       padding: 24px;
-      box-shadow: var(--shadow-lg);
     }
 
     .form-row { margin-bottom: 14px; }
     .form-row label {
       display: block;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 6px;
     }
     .grid-2 {
@@ -640,15 +758,15 @@
     .spinner {
       width: 16px;
       height: 16px;
-      border: 2px solid rgba(255,255,255,0.35);
-      border-top-color: #FFF;
+      border: 2.5px solid rgba(254,240,138,0.35);
+      border-top-color: #FEF08A;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       display: inline-block;
     }
     .spinner.dark {
       border-color: rgba(30,41,59,0.2);
-      border-top-color: var(--primary);
+      border-top-color: var(--ink);
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -657,24 +775,25 @@
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: var(--primary);
-      color: #FFF;
+      background: var(--ink);
+      color: #FEF08A;
+      border: 2px solid var(--ink);
       padding: 10px 18px;
       border-radius: 999px;
       font-size: 13.5px;
-      font-weight: 600;
+      font-weight: 800;
       opacity: 0;
       pointer-events: none;
       transition: all 0.25s;
       z-index: 100;
-      box-shadow: var(--shadow-lg);
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* History item */
     .history-item {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 2px solid var(--ink);
       border-radius: var(--radius);
       padding: 16px 18px;
       margin-bottom: 12px;
@@ -683,7 +802,7 @@
       justify-content: space-between;
       gap: 14px;
       flex-wrap: wrap;
-      box-shadow: var(--shadow);
+      box-shadow: 3px 3px 0 var(--ink);
     }
 
     .todo-item {
@@ -691,24 +810,28 @@
       align-items: flex-start;
       gap: 10px;
       padding: 10px 12px;
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 9px;
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: 10px;
       margin-bottom: 8px;
       font-size: 13.5px;
+      box-shadow: 2px 2px 0 var(--ink);
     }
     .todo-item input[type="checkbox"] {
       width: 16px;
       height: 16px;
       margin-top: 3px;
-      accent-color: var(--primary);
+      accent-color: var(--ink);
     }
     .todo-item.done span { text-decoration: line-through; color: var(--text-muted); }
 
     .loading-box {
-      padding: 36px 20px;
+      padding: 32px 20px;
       text-align: center;
-      color: var(--text-muted);
+      color: var(--ink);
+      background: #FEFCE8;
+      border: 2px dashed var(--ink);
+      border-radius: var(--radius-sm);
     }
     .flex-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
     .mt-2 { margin-top: 8px; }
@@ -729,10 +852,10 @@
       </div>
 
       <nav class="nav-links">
-        <button class="nav-btn active" data-view="home" onclick="switchView('home')">岗位快筛与投递</button>
-        <button class="nav-btn" data-view="interview" onclick="switchView('interview')">面试准备</button>
-        <button class="nav-btn" data-view="research" onclick="switchView('research')">公司背调</button>
-        <button class="nav-btn" data-view="history" onclick="switchView('history')">投递记录 <span id="historyCount" class="tag" style="margin-left:2px;">0</span></button>
+        <button class="nav-btn active" data-view="home" onclick="switchView('home')">📌 岗位快筛</button>
+        <button class="nav-btn" data-view="interview" onclick="switchView('interview')">📝 面试准备</button>
+        <button class="nav-btn" data-view="research" onclick="switchView('research')">🔎 公司背调</button>
+        <button class="nav-btn" data-view="history" onclick="switchView('history')">🗂️ 投递手账 <span id="historyCount" class="tag yellow" style="margin-left:2px;">0</span></button>
       </nav>
 
       <div class="nav-actions">
@@ -749,17 +872,18 @@
   </header>
 
   <main class="container">
-    <!-- ==================== VIEW 1: HOME (岗位快筛与投递) ==================== -->
+    <!-- ==================== VIEW 1: HOME ==================== -->
     <section id="view-home" class="view active">
       <div class="home-grid">
         <div class="home-left">
+          <div class="sticker-kicker">✨ 求职不孤单 · 你的 AI 投递手账</div>
           <h1 class="hero-title">粘贴岗位网址或任意招聘截图<br/><span class="mark">1 分钟搞定岗位解析、改简历与自我介绍</span></h1>
 
           <div class="value-card">
             <span class="value-num">01</span>
             <div>
-              <h4>岗位解析 & 4 维度匹配度打分</h4>
-              <p>拆解 JD 核心业务痛点与隐形考察点，结合你的求职阶段与简历，输出 0–100 分透明匹配度评分与短板诊断。</p>
+              <h4>岗位解析 & 4 维度匹配度盖章</h4>
+              <p>拆解 JD 核心业务痛点与隐形考察点，结合你的求职阶段输出 0–100 分透明打分与投递建议。</p>
             </div>
           </div>
           <div class="value-card">
@@ -773,14 +897,14 @@
             <span class="value-num">03</span>
             <div>
               <h4>基于优化后简历的专属自我介绍</h4>
-              <p>围绕优化后的项目/实习/比赛经历与核心职责自然展开，不堆砌生硬数字，直击面试官最关心的 JD 匹配点。</p>
+              <p>围绕优化后的项目/实习/比赛经历与核心职责自然展开，不堆砌生硬数字，直击面试官最关心的匹配点。</p>
             </div>
           </div>
           <div class="value-card">
             <span class="value-num">04</span>
             <div>
-              <h4>联动面试准备 & 公司背调</h4>
-              <p>解析完的岗位自动留存 JD，一键生成专属面试清单与联网公司背景调研，全程可见实时生成耗时。</p>
+              <h4>联动面试清单 & 公司排雷背调</h4>
+              <p>解析完的岗位自动记入投递手账，一键生成专属面试清单与联网公司背调，全程可见实时耗时。</p>
             </div>
           </div>
         </div>
@@ -827,7 +951,7 @@
             <div id="input-img" class="hidden">
               <div id="imgDropzone" class="dropzone" onclick="document.getElementById('jobImgFile').click()">
                 <div style="font-size:24px; margin-bottom:4px;">📋</div>
-                <div style="font-weight:700; font-size:14px;">点击上传任意招聘截图（支持一次多选），或按 Ctrl+V 连续粘贴</div>
+                <div style="font-weight:800; font-size:14px;">点击上传任意招聘截图（支持一次多选），或按 Ctrl+V 连续粘贴</div>
                 <div class="text-sm mt-2">不限平台（Boss、猎聘、智联、小红书、微信群、官网长图均可），最多 6 张，自动合并去重识别完整 JD</div>
                 <div id="jobImgGallery" class="img-gallery hidden"></div>
                 <input type="file" id="jobImgFile" accept="image/*" multiple class="hidden" onchange="handleJobImgFiles(event)" />
@@ -860,7 +984,7 @@
               <textarea id="manualJdTextarea" rows="6" placeholder="直接把职位名称、公司名、岗位职责和任职要求粘贴到这里..."></textarea>
             </div>
 
-            <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;" />
+            <hr style="border:none; border-top:2px dashed #CBD5E1; margin:20px 0;" />
 
             <!-- Step 2 -->
             <div class="step-header">
@@ -870,7 +994,7 @@
 
             <div class="resume-strip">
               <div style="flex:1; min-width:200px;">
-                <div id="homeResumeName" style="font-weight:700; font-size:14px;">尚未上传简历（支持 PDF / DOCX / TXT / 图片）</div>
+                <div id="homeResumeName" style="font-weight:800; font-size:14px;">尚未上传简历（支持 PDF / DOCX / TXT / 图片）</div>
                 <div id="homePrefSummary" class="text-sm">点击右侧上传简历并必选当前求职阶段 / 工作年限</div>
               </div>
               <button class="btn btn-outline btn-sm" onclick="openResumeDrawer()">上传 / 编辑档案</button>
@@ -881,6 +1005,13 @@
                 开始 AI 深度分析 →
               </button>
             </div>
+
+            <!-- 搭子碎碎念等待条 -->
+            <div id="homeChatterBox" class="chatter-box hidden">
+              <span class="chatter-avatar">🐶</span>
+              <span id="homeChatterText">搭子正在戴上显微镜拆解 JD 里的潜台词...</span>
+            </div>
+
             <div id="homeErrorBox" class="notice-box notice-err hidden"></div>
           </div>
         </div>
@@ -892,7 +1023,7 @@
       <div class="result-topbar">
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-outline btn-sm" onclick="switchView('home')">← 返回录入新岗位</button>
-          <h2 id="resHeaderTitle" style="margin:0; font-size:20px;">岗位分析结果</h2>
+          <h2 id="resHeaderTitle" style="margin:0; font-size:20px; font-weight:900;">岗位分析结果</h2>
           <span id="resStatusBadge" class="tag yellow">待投递</span>
           <span id="resElapsedBadge" class="timer-badge hidden">⏱️ 耗时 --</span>
         </div>
@@ -906,19 +1037,20 @@
         </div>
       </div>
 
-      <!-- Summary & Match Score Card -->
+      <!-- Summary & Match Score Card + Dynamic Stamp -->
       <div class="score-card">
         <div class="score-circle">
           <strong id="resMatchScore">--</strong>
           <span>匹配度/100</span>
         </div>
-        <div style="flex:1; min-width:240px;">
+        <div style="flex:1; min-width:240px; padding-right:120px;">
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
             <span id="resVerdictTag" class="tag green">推荐投递</span>
             <strong id="resSummary" style="font-size:16px;">--</strong>
           </div>
-          <div id="resProsCons" class="text-sm" style="color:var(--text); line-height:1.75;"></div>
+          <div id="resProsCons" class="text-sm" style="color:var(--ink); line-height:1.75;"></div>
         </div>
+        <div id="resStampBadge" class="verdict-stamp stamp-go">稳了 · 冲</div>
       </div>
 
       <!-- Original JD Card -->
@@ -937,19 +1069,19 @@
         <div id="resJdBody" class="jd-body"></div>
 
         <!-- Inline Manual Correction Editor -->
-        <div id="resJdEditBox" class="hidden mt-3" style="padding-top:12px; border-top:1px dashed var(--border-strong);">
+        <div id="resJdEditBox" class="hidden mt-3" style="padding-top:12px; border-top:2px dashed #CBD5E1;">
           <div class="grid-2 mb-2">
             <div>
-              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:var(--text-muted);">修正公司名称</label>
+              <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px; color:var(--text-muted);">修正公司名称</label>
               <input type="text" id="editResCompany" placeholder="输入正确公司名" />
             </div>
             <div>
-              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:var(--text-muted);">修正岗位名称</label>
+              <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px; color:var(--text-muted);">修正岗位名称</label>
               <input type="text" id="editResJobTitle" placeholder="输入正确岗位名" />
             </div>
           </div>
           <div class="mb-2">
-            <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:var(--text-muted);">修正 JD 原文（可增删、修改识别错别字）</label>
+            <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px; color:var(--text-muted);">修正 JD 原文（可增删、修改识别错别字）</label>
             <textarea id="editResJdText" rows="6"></textarea>
           </div>
           <div id="reanalyzeError" class="notice-box notice-err hidden" style="margin-bottom:10px;"></div>
@@ -977,7 +1109,7 @@
       <div id="rtab-jobAnalysis" class="card">
         <div class="flex-between mb-2">
           <div>
-            <h3 style="margin:0; font-size:16px;">岗位深度解析 & 4 维度匹配度拆解</h3>
+            <h3 style="margin:0; font-size:16px; font-weight:900;">岗位深度解析 & 4 维度匹配度拆解</h3>
             <p class="text-sm" style="margin:4px 0 0;">帮你看透这份 JD 真正要招什么样的人，以及你目前的匹配得分依据。</p>
           </div>
         </div>
@@ -986,14 +1118,14 @@
 
       <!-- Tab 2: Resume Tuning & Editable Templates -->
       <div id="rtab-resume" class="card hidden">
-        <h3 style="margin:0 0 12px; font-size:16px;">一、经历排序与取舍建议</h3>
+        <h3 style="margin:0 0 12px; font-size:16px; font-weight:900;">一、经历排序与取舍建议</h3>
         <div id="resumeOrderBox" class="sub-card"></div>
 
-        <h3 style="margin:20px 0 12px; font-size:16px;">二、原简历改写对比 & 面试怎么讲（文字简历 + 口语范本一一对应）</h3>
+        <h3 style="margin:20px 0 12px; font-size:16px; font-weight:900;">二、原简历改写对比 & 面试怎么讲（文字简历 + 口语范本一一对应）</h3>
         <div id="rewritesList"></div>
 
         <div class="flex-between" style="margin:22px 0 12px;">
-          <h3 style="margin:0; font-size:16px;">三、相关经历填空式写法示范</h3>
+          <h3 style="margin:0; font-size:16px; font-weight:900;">三、相关经历填空式写法示范</h3>
           <div style="display:flex; gap:6px;">
             <button class="btn btn-primary btn-sm" id="tplWorkBtn" onclick="switchTemplateType('work')">按工作经历写</button>
             <button class="btn btn-outline btn-sm" id="tplProjBtn" onclick="switchTemplateType('project')">按项目经历写</button>
@@ -1010,7 +1142,7 @@
       <div id="rtab-selfIntro" class="card hidden">
         <div class="flex-between mb-2">
           <div>
-            <h3 style="margin:0; font-size:16px;">基于优化后简历的专属面试自我介绍</h3>
+            <h3 style="margin:0; font-size:16px; font-weight:900;">基于优化后简历的专属面试自我介绍</h3>
             <p class="text-sm" style="margin:4px 0 0;">围绕你做过的项目/实习/比赛经历与负责的职责展开，不强行堆砌量化数字，让面试官一眼听懂你和目标 JD 的契合点。</p>
           </div>
         </div>
@@ -1026,7 +1158,7 @@
         </div>
         <div id="embeddedInterviewLoading" class="loading-box hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div id="embeddedInterviewLoadingText">正在结合简历与 JD 拆解面试考察重点与必考追问...</div>
+          <div id="embeddedInterviewLoadingText" style="font-weight:800;">正在结合简历与 JD 拆解面试考察重点与必考追问...</div>
         </div>
         <div id="embeddedInterviewContent" class="hidden"></div>
       </div>
@@ -1042,7 +1174,7 @@
         <p class="text-sm" style="margin:4px 0 14px;">提示：若 Boss 上显示的是公司简称，建议改成工商全称后调研，联网检索结果更准确。</p>
         <div id="embeddedResearchLoading" class="loading-box hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div id="embeddedResearchLoadingText">正在调研公司业务基本盘、风控口碑与近期动态...</div>
+          <div id="embeddedResearchLoadingText" style="font-weight:800;">正在调研公司业务基本盘、风控口碑与近期动态...</div>
         </div>
         <div id="embeddedResearchContent" class="hidden"></div>
       </div>
@@ -1054,7 +1186,7 @@
         <div class="flex-between mb-2">
           <div>
             <span class="tag yellow">独立快捷入口</span>
-            <h2 style="margin:6px 0 4px;">面试准备清单生成器</h2>
+            <h2 style="margin:6px 0 4px; font-weight:900;">面试准备清单生成器</h2>
             <p class="text-sm" style="margin:0;">临时约到面试？直接粘贴岗位 JD（可选联动你的求职档案），快速生成岗位重点、高频追问与待办清单。</p>
           </div>
         </div>
@@ -1073,16 +1205,16 @@
           <textarea id="soloIntJd" rows="5" placeholder="粘贴你要面试的岗位职责与任职要求..."></textarea>
         </div>
         <div class="flex-between">
-          <label style="display:inline-flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
-            <input type="checkbox" id="soloIntUseResume" checked style="width:15px;height:15px;accent-color:var(--primary);" />
+          <label style="display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; cursor:pointer;">
+            <input type="checkbox" id="soloIntUseResume" checked style="width:15px;height:15px;accent-color:var(--ink);" />
             结合我已上传的求职档案定制问题
           </label>
           <button class="btn btn-primary" onclick="runSoloInterview()" id="soloIntBtn">✨ 生成面试准备清单</button>
         </div>
         <div id="soloIntError" class="notice-box notice-err hidden"></div>
-        <div id="soloIntLoading" class="loading-box hidden">
+        <div id="soloIntLoading" class="loading-box mt-3 hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div id="soloIntLoadingText">正在生成结构化面试准备清单...</div>
+          <div id="soloIntLoadingText" style="font-weight:800;">正在生成结构化面试准备清单...</div>
         </div>
         <div id="soloIntResult" class="mt-4 hidden"></div>
       </div>
@@ -1092,7 +1224,7 @@
     <section id="view-research" class="view">
       <div class="card" style="max-width:860px; margin:0 auto;">
         <span class="tag yellow">独立快捷入口 · 防幻觉背调</span>
-        <h2 style="margin:6px 0 4px;">公司背景调研</h2>
+        <h2 style="margin:6px 0 4px; font-weight:900;">公司背景调研</h2>
         <p class="text-sm" style="margin:0 0 16px;">输入公司名称，快速了解主营业务与赚钱逻辑、潜在避坑信号、近期动态及面试反问子弹。查无实据绝不编造。</p>
 
         <div class="grid-2">
@@ -1112,9 +1244,9 @@
         <button class="btn btn-primary" onclick="runSoloResearch()" id="soloResBtn">🔍 开始背景调研</button>
 
         <div id="soloResError" class="notice-box notice-err hidden"></div>
-        <div id="soloResLoading" class="loading-box hidden">
+        <div id="soloResLoading" class="loading-box mt-3 hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div id="soloResLoadingText">正在分析公司业务、风控口碑与近期动态...</div>
+          <div id="soloResLoadingText" style="font-weight:800;">正在分析公司业务、风控口碑与近期动态...</div>
         </div>
         <div id="soloResResult" class="mt-4 hidden"></div>
       </div>
@@ -1124,7 +1256,7 @@
     <section id="view-history" class="view">
       <div class="flex-between mb-2">
         <div>
-          <h2 style="margin:0;">投递记录与面试看板</h2>
+          <h2 style="margin:0; font-weight:900;">🗂️ 投递手账与面试看板</h2>
           <p class="text-sm" style="margin:4px 0 0;">所有分析记录均保存在你本机浏览器中，随时重新打开查看岗位解析、自我介绍、JD 原文或面试清单。</p>
         </div>
         <button class="btn btn-outline btn-sm" onclick="clearAllHistory()">清空全部记录</button>
@@ -1137,14 +1269,14 @@
   <div id="resumeDrawerOverlay" class="drawer-overlay" onclick="if(event.target===this) closeResumeDrawer()">
     <div class="drawer">
       <div class="flex-between mb-2">
-        <h3 style="margin:0; font-size:18px;">📄 求职档案与排雷偏好</h3>
+        <h3 style="margin:0; font-size:18px; font-weight:900;">📄 求职档案与排雷偏好</h3>
         <button class="btn btn-outline btn-sm" onclick="closeResumeDrawer()">关闭</button>
       </div>
       <p class="text-sm">上传一次，全站复用（简历仅保存在你的浏览器中，不上传服务器留存）。支持解析 PDF、Word (.docx)、TXT、Markdown 及图片简历。</p>
 
       <div class="dropzone mt-3" onclick="document.getElementById('resumeFileInput').click()">
         <div style="font-size:22px; margin-bottom:4px;">📎</div>
-        <div style="font-weight:700; font-size:14px;">点击上传简历文件（图片简历支持多选）</div>
+        <div style="font-weight:800; font-size:14px;">点击上传简历文件（图片简历支持多选）</div>
         <div class="text-sm mt-2">支持 PDF / DOCX / TXT / MD 或多张简历截图（PNG / JPG）</div>
         <input type="file" id="resumeFileInput" accept=".pdf,.docx,.txt,.md,image/*" multiple class="hidden" onchange="handleResumeFile(event)" />
       </div>
@@ -1159,7 +1291,7 @@
         <textarea id="profResumeText" rows="8" placeholder="在此粘贴你的教育背景、工作/实习/项目/比赛经历、技能特长..."></textarea>
       </div>
 
-      <hr style="border:none; border-top:1px solid var(--border); margin:18px 0;" />
+      <hr style="border:none; border-top:2px dashed #CBD5E1; margin:18px 0;" />
 
       <div class="form-row">
         <label>当前求职阶段 / 工作年限 <span style="color:#DC2626;">*（必选）</span></label>
@@ -1173,7 +1305,7 @@
         <div class="text-sm mt-2">必选项：将直接决定岗位匹配度打分、简历改写深度以及自我介绍的侧重点。</div>
       </div>
 
-      <h4 style="margin:14px 0 12px;">求职偏好与硬性排雷（选填）</h4>
+      <h4 style="margin:14px 0 12px; font-weight:900;">求职偏好与硬性排雷（选填）</h4>
       <div class="grid-2">
         <div class="form-row">
           <label>想做的方向</label>
@@ -1201,14 +1333,14 @@
   <div id="redeemModalOverlay" class="overlay" onclick="if(event.target===this) closeRedeemModal()">
     <div class="modal" style="max-width:500px;">
       <div class="flex-between mb-2">
-        <h3 style="margin:0; font-size:18px;">🎟️ 体验额度与兑换码</h3>
+        <h3 style="margin:0; font-size:18px; font-weight:900;">🎟️ 体验额度与兑换码</h3>
         <button class="btn btn-outline btn-sm" onclick="closeRedeemModal()">关闭</button>
       </div>
 
-      <div class="sub-card" style="background:#FEFCE8; border-color:#FDE047; margin-top:12px;">
+      <div class="sub-card" style="background:#FEFCE8; margin-top:12px;">
         <div class="flex-between">
-          <span style="font-weight:700; font-size:14px;">当前可用次数</span>
-          <strong id="modalQuotaBadge" style="font-size:20px; color:var(--primary);">--</strong>
+          <span style="font-weight:800; font-size:14px;">当前可用次数</span>
+          <strong id="modalQuotaBadge" style="font-size:20px; color:var(--ink);">--</strong>
         </div>
         <div id="modalQuotaSub" class="text-sm mt-2" style="color:#713F12;">
           新用户默认赠送免费体验次数；上传截图/图片简历识别不额外扣次。
@@ -1225,7 +1357,7 @@
       <div id="redeemFeedback" class="notice-box hidden"></div>
 
       <div class="sub-card mt-3" style="margin-bottom:0; font-size:13px; color:var(--text-muted); line-height:1.7;">
-        <div style="font-weight:700; color:var(--text); margin-bottom:4px;">💡 如何获取更多使用次数？</div>
+        <div style="font-weight:800; color:var(--ink); margin-bottom:4px;">💡 如何获取更多使用次数？</div>
         <div>体验次数用完后，可在小红书私信 <strong>「投递搭子」</strong>（或联系客服微信）获取专属兑换码，输入上方即可立即生效，已保存的简历与历史分析记录不会丢失。</div>
       </div>
     </div>
@@ -1257,18 +1389,43 @@
       }
     }
 
-    // ==================== LIVE TIMER HELPER ====================
+    // ==================== LIVE TIMER & BUDDY CHATTER HELPER ====================
     function startLiveTimer(onTick) {
       const start = performance.now();
-      onTick('0.0s');
+      onTick('0.0s', 0);
       const timerId = setInterval(() => {
-        const sec = ((performance.now() - start) / 1000).toFixed(1) + 's';
-        onTick(sec);
+        const elapsedMs = performance.now() - start;
+        const sec = (elapsedMs / 1000).toFixed(1) + 's';
+        onTick(sec, elapsedMs);
       }, 100);
       return function stopTimer() {
         clearInterval(timerId);
         return ((performance.now() - start) / 1000).toFixed(1) + 's';
       };
+    }
+
+    const ANALYZE_CHATTER = [
+      '🔍 搭子正在戴上显微镜拆解 JD 里的潜台词...',
+      '📊 正在按 4 个维度帮你算透岗位匹配度...',
+      '✍️ 正在把你的经历翻译成面试官最爱听的话...',
+      '🎤 正在帮你顺一遍 1 分钟自我介绍的口语节奏...',
+      '✨ 马上好啦！正在做最后的排版与盖章...'
+    ];
+    const INTERVIEW_CHATTER = [
+      '🧠 搭子正在模拟业务总监视角翻看你的简历...',
+      '⚡ 正在挑出面试官最可能连环追问的 4 个硬核问题...',
+      '📝 正在整理高频面经快刷池和临阵待办清单...',
+      '🎯 马上出炉！正在打磨几句像同行聊业务的反问...'
+    ];
+    const RESEARCH_CHATTER = [
+      '🔎 搭子正在全网翻查这家公司的业务基本盘...',
+      '🛡️ 正在扫描加班口碑、外包信号与潜在避坑点...',
+      '🎯 正在结合岗位帮你准备面试反问子弹...'
+    ];
+
+    function pickChatter(list, elapsedMs) {
+      const idx = Math.floor(elapsedMs / 3200) % list.length;
+      return list[idx];
     }
 
     // ==================== DEPLOYMENT CONFIG ====================
@@ -1703,11 +1860,10 @@
       if (!files.length) return;
       const statusEl = document.getElementById('resumeParseStatus');
       statusEl.className = 'notice-box notice-warn';
-      statusEl.textContent = files.length > 1 ? `正在解析 ${files.length} 个文件...` : `正在解析 ${files[0].name}...`;
       statusEl.classList.remove('hidden');
 
       const stopTimer = startLiveTimer(sec => {
-        statusEl.textContent = `正在解析简历文件... (已用时 ${sec})`;
+        statusEl.textContent = `📎 正在解析简历文件... (已用时 ${sec})`;
       });
 
       try {
@@ -2154,10 +2310,15 @@ ${jdText.slice(0, 5000)}
       }
 
       const btn = document.getElementById('startAnalyzeBtn');
+      const chatterBox = document.getElementById('homeChatterBox');
+      const chatterText = document.getElementById('homeChatterText');
       btn.disabled = true;
-      let phaseText = '正在准备分析...';
-      const stopTimer = startLiveTimer(sec => {
-        btn.innerHTML = `<span class="spinner"></span> ${phaseText} (已用时 ${sec})`;
+      chatterBox.classList.remove('hidden');
+
+      let customPhase = '';
+      const stopTimer = startLiveTimer((sec, ms) => {
+        btn.innerHTML = `<span class="spinner"></span> AI 深度分析中... (已用时 ${sec})`;
+        chatterText.textContent = customPhase || pickChatter(ANALYZE_CHATTER, ms);
       });
 
       try {
@@ -2172,7 +2333,7 @@ ${jdText.slice(0, 5000)}
           if (!jdText) {
             const url = document.getElementById('jobUrlInput').value.trim();
             if (!url) throw new Error('请先粘贴职位网址，或切换到“传截图 / 粘贴 JD”');
-            phaseText = '正在抓取网页 JD';
+            customPhase = '🌐 正在抓取公开网页 JD 正文...';
             await fetchUrlJD();
             jdText = document.getElementById('urlJdTextarea').value.trim();
             if (!jdText) throw new Error('无法直接抓取该链接，请改用「传截图 / Ctrl+V」或「粘贴 JD」');
@@ -2182,7 +2343,7 @@ ${jdText.slice(0, 5000)}
           jdText = document.getElementById('ocrJdTextarea').value.trim();
           if (!jdText) {
             if (!currentJobImgs.length) throw new Error('请先上传或按 Ctrl+V 粘贴至少 1 张招聘截图');
-            phaseText = `第 1/2 步：正在合并识别 ${currentJobImgs.length} 张截图`;
+            customPhase = `🖼️ 正在合并识别 ${currentJobImgs.length} 张岗位截图...`;
             const ocrRes = await runScreenshotOCR();
             jdText = ocrRes.jdText;
             if (ocrRes.meta?.platform && ocrRes.meta.platform !== '未知') {
@@ -2197,7 +2358,7 @@ ${jdText.slice(0, 5000)}
           if (!jdText || jdText.length < 15) throw new Error('请粘贴完整的职位描述（JD）内容');
         }
 
-        phaseText = '正在深度解析岗位、优化简历并生成自我介绍';
+        customPhase = '';
         const analysis = await runDeepAnalysisAI(jdText, overrideCompany, overrideJobTitle);
         const elapsed = stopTimer();
 
@@ -2229,10 +2390,29 @@ ${jdText.slice(0, 5000)}
       } finally {
         btn.disabled = false;
         btn.textContent = '开始 AI 深度分析 →';
+        chatterBox.classList.add('hidden');
       }
     }
 
     // ==================== RENDER RESULT VIEW ====================
+    function triggerStampAnimation(score, verdictText) {
+      const stamp = document.getElementById('resStampBadge');
+      if (!stamp) return;
+      stamp.className = 'verdict-stamp';
+      void stamp.offsetWidth; // force reflow to replay animation
+
+      if ((typeof score === 'number' && score >= 80) || String(verdictText).includes('推荐')) {
+        stamp.textContent = '稳了 · 冲';
+        stamp.classList.add('stamp-go', 'animate');
+      } else if ((typeof score === 'number' && score >= 60) || String(verdictText).includes('尝试')) {
+        stamp.textContent = '改完再投';
+        stamp.classList.add('stamp-try', 'animate');
+      } else {
+        stamp.textContent = '先观望';
+        stamp.classList.add('stamp-wait', 'animate');
+      }
+    }
+
     function openRecordResult(record) {
       currentRecord = record;
       const a = record.analysis || {};
@@ -2273,13 +2453,14 @@ ${jdText.slice(0, 5000)}
       const ja = a.jobAnalysis || {};
       const breakdownHtml = (ja.scoreBreakdown || []).map(item => {
         const pct = Math.min(100, Math.max(0, Math.round(((item.score || 0) / (item.max || 1)) * 100)));
+        const fillBg = pct >= 80 ? '#34D399' : (pct >= 60 ? '#FDE047' : '#FCA5A5');
         return `
           <div style="margin-bottom:12px;">
             <div class="score-bar-row">
               <strong>${escapeHtml(item.name)}</strong>
               <span class="tag yellow">${item.score ?? '--'} / ${item.max ?? '--'} 分</span>
             </div>
-            <div class="score-bar-track"><div class="score-bar-fill" style="width:${pct}%"></div></div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${pct}%; background:${fillBg};"></div></div>
             <div class="text-sm">${escapeHtml(item.reason)}</div>
           </div>
         `;
@@ -2289,7 +2470,7 @@ ${jdText.slice(0, 5000)}
       const hiddenHtml = (ja.hiddenRequirements || []).map(h => `<li style="margin-bottom:6px;">${escapeHtml(h)}</li>`).join('') || '<li class="text-sm">暂无拆解</li>';
 
       document.getElementById('jobAnalysisContent').innerHTML = `
-        <div class="sub-card" style="background:#FEFCE8; border-color:#FDE047;">
+        <div class="sub-card" style="background:#FEFCE8;">
           <h4 style="margin:0 0 10px;">📊 岗位匹配度 4 维度打分明细（总分：${typeof a.matchScore === 'number' ? a.matchScore + ' / 100' : '--'}）</h4>
           ${breakdownHtml}
         </div>
@@ -2321,7 +2502,7 @@ ${jdText.slice(0, 5000)}
             <span class="text-sm">补齐关键词：</span>
             ${(rw.keywords || []).map(k => `<span class="tag yellow">${escapeHtml(k)}</span>`).join('')}
           </div>
-          <div id="rw-editable-${idx}" style="font-size:14.5px; background:#FFF; padding:10px 12px; border-radius:8px; border:1px solid var(--border); line-height:1.75;">
+          <div id="rw-editable-${idx}" style="font-size:14.5px; background:#FFF; padding:10px 12px; border-radius:8px; border:1.5px solid var(--ink); line-height:1.75;">
             ${formatEditablePills(rw.improved)}
           </div>
           <div class="flex-between mt-2">
@@ -2334,8 +2515,8 @@ ${jdText.slice(0, 5000)}
               <strong style="font-size:13.5px;">🎤 面试怎么讲（约 1.5 分钟口语范本）</strong>
               <button class="btn btn-outline btn-sm" onclick="copyCleanEditable('rw-pitch-${idx}')">复制口语范本</button>
             </div>
-            <div id="rw-pitch-${idx}" style="font-size:14px; line-height:1.8; color:var(--text); white-space:pre-line;">${formatEditablePills(rw.pitch)}</div>
-            ${rw.followUp ? `<div class="text-sm mt-2" style="padding-top:8px; border-top:1px dashed #CBD5E1; color:#334155;"><strong>⚡ 高频追问：</strong>${escapeHtml(rw.followUp)}</div>` : ''}
+            <div id="rw-pitch-${idx}" style="font-size:14px; line-height:1.8; color:var(--ink); white-space:pre-line;">${formatEditablePills(rw.pitch)}</div>
+            ${rw.followUp ? `<div class="text-sm mt-2" style="padding-top:8px; border-top:1.5px dashed #94A3B8; color:#334155;"><strong>⚡ 高频追问：</strong>${escapeHtml(rw.followUp)}</div>` : ''}
           </div>
           ` : ''}
         </div>
@@ -2344,7 +2525,7 @@ ${jdText.slice(0, 5000)}
       currentTemplateType = 'work';
       renderTemplateDemo();
 
-      // Tab 3: Self Introduction (based on optimized resume)
+      // Tab 3: Self Introduction
       const si = a.selfIntro || {};
       if (si.script) {
         const hlHtml = (si.matchHighlights || []).map(h => `<li style="margin-bottom:4px;">${escapeHtml(h)}</li>`).join('');
@@ -2358,7 +2539,7 @@ ${jdText.slice(0, 5000)}
                 <button class="btn btn-primary btn-sm" onclick="copyCleanEditable('self-intro-editable')">一键复制自我介绍</button>
               </div>
             </div>
-            <div id="self-intro-editable" style="font-size:15px; background:#FFF; padding:14px 16px; border-radius:8px; border:1px solid var(--border); line-height:1.85; white-space:pre-line;">
+            <div id="self-intro-editable" style="font-size:15px; background:#FFF; padding:14px 16px; border-radius:8px; border:1.5px solid var(--ink); line-height:1.85; white-space:pre-line;">
               ${formatEditablePills(si.script)}
             </div>
           </div>
@@ -2393,6 +2574,7 @@ ${jdText.slice(0, 5000)}
 
       switchResultTab('jobAnalysis');
       switchView('result');
+      triggerStampAnimation(a.matchScore, verdictText);
     }
 
     function formatEditablePills(text) {
@@ -2424,7 +2606,7 @@ ${jdText.slice(0, 5000)}
       }
       box.innerHTML = `
         <div class="text-sm mb-2"><strong>针对目标能力：</strong>${escapeHtml(tpl.targetSkill)}</div>
-        <div id="tpl-editable-box" style="font-size:14.5px; background:#FFF; padding:12px 14px; border-radius:8px; border:1px solid var(--border); line-height:1.8;">
+        <div id="tpl-editable-box" style="font-size:14.5px; background:#FFF; padding:12px 14px; border-radius:8px; border:1.5px solid var(--ink); line-height:1.8;">
           ${formatEditablePills(tpl.example)}
         </div>
         <div class="flex-between mt-2">
@@ -2629,11 +2811,11 @@ ${resumePart}
           ? item.keyPoints.map(kp => `<li style="margin-bottom:4px;">${escapeHtml(kp)}</li>`).join('')
           : (item.keyPoints ? `<li>${escapeHtml(item.keyPoints)}</li>` : '');
         const bodyHtml = `
-          <ul style="margin:8px 0 0; padding-left:18px; font-size:13.8px; line-height:1.75; color:var(--text);">
+          <ul style="margin:8px 0 0; padding-left:18px; font-size:13.8px; line-height:1.75; color:var(--ink);">
             ${item.subtext ? `<li style="margin-bottom:6px;"><strong>【面试官潜台词】</strong>：${escapeHtml(item.subtext)}</li>` : ''}
             ${item.opener ? `<li style="margin-bottom:6px;"><strong>【口语破题示范】</strong>：${escapeHtml(item.opener)}</li>` : ''}
             ${kpList ? `<li style="margin-bottom:6px;"><strong>【核心得分点】</strong>：<ul style="margin:4px 0 0; padding-left:18px;">${kpList}</ul></li>` : ''}
-            ${item.sampleAnswer ? `<li style="margin-bottom:2px;"><strong>【回答示范】</strong>：<div style="margin-top:6px; background:#FFF; border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:14px; line-height:1.8; white-space:pre-line;">${formatEditablePills(item.sampleAnswer)}</div><div style="margin-top:6px; text-align:right;"><button class="btn btn-outline btn-sm" data-copy="${escapeHtml(item.sampleAnswer)}" onclick="copyText(this.dataset.copy, '已复制回答示范')">复制回答示范</button></div></li>` : ''}
+            ${item.sampleAnswer ? `<li style="margin-bottom:2px;"><strong>【回答示范】</strong>：<div style="margin-top:6px; background:#FFF; border:1.5px solid var(--ink); border-radius:8px; padding:12px 14px; font-size:14px; line-height:1.8; white-space:pre-line;">${formatEditablePills(item.sampleAnswer)}</div><div style="margin-top:6px; text-align:right;"><button class="btn btn-outline btn-sm" data-copy="${escapeHtml(item.sampleAnswer)}" onclick="copyText(this.dataset.copy, '已复制回答示范')">复制回答示范</button></div></li>` : ''}
           </ul>
         `;
         return `
@@ -2642,7 +2824,7 @@ ${resumePart}
             <span class="tag ${String(item.category || '').includes('场景') ? 'yellow' : 'green'}">${escapeHtml(item.category || (i < 2 ? '经历深挖' : 'JD业务场景'))}</span>
             <span class="text-sm">精讲第 ${i + 1} 题</span>
           </div>
-          <div style="font-weight:700; margin-bottom:6px; font-size:14.8px;">Q${i + 1}：${escapeHtml(item.q)}</div>
+          <div style="font-weight:800; margin-bottom:6px; font-size:14.8px;">Q${i + 1}：${escapeHtml(item.q)}</div>
           ${bodyHtml}
         </div>
       `;
@@ -2661,7 +2843,7 @@ ${resumePart}
                 <strong style="font-size:14.2px;">高频 #${idx + 1}：${escapeHtml(p.q)}</strong>
                 ${p.focus ? `<span class="tag" style="flex-shrink:0;">${escapeHtml(p.focus)}</span>` : ''}
               </div>
-              ${pts ? `<ul style="margin:4px 0 0; padding-left:18px; font-size:13.5px; color:var(--text); line-height:1.65;">${pts}</ul>` : ''}
+              ${pts ? `<ul style="margin:4px 0 0; padding-left:18px; font-size:13.5px; color:var(--ink); line-height:1.65;">${pts}</ul>` : ''}
             </div>
           `;
         }).join('')}
@@ -2686,7 +2868,7 @@ ${resumePart}
 
       return `
         ${timerHtml}
-        <div class="sub-card" style="background:#FEFCE8; border-color:#FDE047;">
+        <div class="sub-card" style="background:#FEFCE8;">
           <h4 style="margin:0 0 8px;">01 看懂岗位重点</h4>
           <ul style="margin:0; padding-left:18px; font-size:14px;">${focusHtml}</ul>
         </div>
@@ -2706,8 +2888,8 @@ ${resumePart}
       document.getElementById('embeddedInterviewEmpty').classList.add('hidden');
       document.getElementById('embeddedInterviewLoading').classList.remove('hidden');
       const loadText = document.getElementById('embeddedInterviewLoadingText');
-      const stopTimer = startLiveTimer(sec => {
-        loadText.textContent = `正在结合简历与 JD 拆解面试考察重点与必考追问... (已用时 ${sec})`;
+      const stopTimer = startLiveTimer((sec, ms) => {
+        loadText.textContent = `${pickChatter(INTERVIEW_CHATTER, ms)} (已用时 ${sec})`;
       });
       try {
         const res = await fetchInterviewPrepAI(currentRecord.jdText, currentRecord.company, currentRecord.jobTitle, true);
@@ -2744,9 +2926,9 @@ ${resumePart}
       btn.disabled = true;
       document.getElementById('soloIntLoading').classList.remove('hidden');
       document.getElementById('soloIntResult').classList.add('hidden');
-      const stopTimer = startLiveTimer(sec => {
+      const stopTimer = startLiveTimer((sec, ms) => {
         btn.innerHTML = `<span class="spinner"></span> 生成中 (${sec})`;
-        loadText.textContent = `正在生成结构化面试准备清单... (已用时 ${sec})`;
+        loadText.textContent = `${pickChatter(INTERVIEW_CHATTER, ms)} (已用时 ${sec})`;
       });
       try {
         const res = await fetchInterviewPrepAI(jd, company, title, useResume);
@@ -2896,9 +3078,9 @@ ${resumePart}
       btn.disabled = true;
       document.getElementById('embeddedResearchLoading').classList.remove('hidden');
       document.getElementById('embeddedResearchContent').classList.add('hidden');
-      const stopTimer = startLiveTimer(sec => {
+      const stopTimer = startLiveTimer((sec, ms) => {
         btn.innerHTML = `<span class="spinner"></span> 调研中 ${sec}`;
-        loadText.textContent = `正在调研公司业务基本盘、风控口碑与近期动态... (已用时 ${sec})`;
+        loadText.textContent = `${pickChatter(RESEARCH_CHATTER, ms)} (已用时 ${sec})`;
       });
       try {
         const res = await fetchCompanyResearchAI(comp, currentRecord.jobTitle, currentRecord.jdText || '');
@@ -2936,9 +3118,9 @@ ${resumePart}
       btn.disabled = true;
       document.getElementById('soloResLoading').classList.remove('hidden');
       document.getElementById('soloResResult').classList.add('hidden');
-      const stopTimer = startLiveTimer(sec => {
+      const stopTimer = startLiveTimer((sec, ms) => {
         btn.innerHTML = `<span class="spinner"></span> 调研中 (${sec})`;
-        loadText.textContent = `正在分析公司业务、风控口碑与近期动态... (已用时 ${sec})`;
+        loadText.textContent = `${pickChatter(RESEARCH_CHATTER, ms)} (已用时 ${sec})`;
       });
       try {
         const res = await fetchCompanyResearchAI(comp, role, jd);
@@ -2961,7 +3143,7 @@ ${resumePart}
       const box = document.getElementById('historyList');
       if (!historyRecords.length) {
         box.innerHTML = `<div class="card" style="text-align:center; padding:40px 20px; color:var(--text-muted);">
-          暂无分析记录，去「岗位快筛与投递」分析你的第一个目标岗位吧！
+          暂无分析记录，去「岗位快筛」分析你的第一个目标岗位吧！
         </div>`;
         return;
       }
