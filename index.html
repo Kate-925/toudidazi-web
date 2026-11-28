@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>offer · 投递搭子 — AI 求职排雷、打招呼语与面试助手</title>
+  <title>offer · 投递搭子 — AI 岗位解析、简历微调、自我介绍与面试助手</title>
   <!-- 浏览器端文档解析库：PDF.js & Mammoth.js (DOCX) -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
@@ -89,14 +89,6 @@
       font-weight: 900;
       letter-spacing: 0.2px;
     }
-    .brand-tag {
-      font-size: 11px;
-      font-weight: 600;
-      background: var(--highlight);
-      color: var(--text);
-      padding: 2px 7px;
-      border-radius: 999px;
-    }
 
     .nav-links {
       display: flex;
@@ -160,23 +152,6 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* API Setup Alert Banner */
-    .setup-banner {
-      background: var(--warn-bg);
-      border: 1px solid var(--warn-border);
-      color: var(--warn-text);
-      border-radius: var(--radius-sm);
-      padding: 12px 16px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      font-size: 13.5px;
-    }
-    .setup-banner.hidden { display: none; }
-
     /* Home Split Layout */
     .home-grid {
       display: grid;
@@ -201,11 +176,6 @@
       background: linear-gradient(180deg, transparent 52%, var(--highlight) 52%);
       padding: 0 4px;
     }
-    .hero-sub {
-      color: var(--text-muted);
-      font-size: 15px;
-      margin: 0 0 24px;
-    }
 
     .value-card {
       background: var(--surface);
@@ -218,7 +188,6 @@
       align-items: flex-start;
       box-shadow: var(--shadow);
     }
-    .value-card.accent { background: #FEFCE8; border-color: #FDE047; }
     .value-num {
       font-size: 12px;
       font-weight: 800;
@@ -255,7 +224,6 @@
       color: #FFF;
     }
     .step-tag.s2 { background: #CA8A04; }
-    .step-tag.s3 { background: #0F766E; }
     .step-title { font-weight: 800; font-size: 16px; margin: 0; }
 
     .seg-tabs {
@@ -320,7 +288,7 @@
       color: #FFF;
     }
     .btn-primary:hover { background: var(--primary-hover); }
-    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-primary:disabled { opacity: 0.65; cursor: not-allowed; }
     .btn-outline {
       background: var(--surface);
       color: var(--text);
@@ -343,14 +311,6 @@
     .dropzone:hover, .dropzone.dragover {
       border-color: var(--primary);
       background: #FFF;
-    }
-    .dropzone-preview {
-      max-height: 190px;
-      max-width: 100%;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      margin-top: 10px;
-      object-fit: contain;
     }
     .img-gallery {
       display: grid;
@@ -432,14 +392,6 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-    .privacy-note {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
 
     /* Result View */
     .result-topbar {
@@ -463,8 +415,8 @@
       box-shadow: var(--shadow);
     }
     .score-circle {
-      width: 78px;
-      height: 78px;
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
       background: var(--highlight);
       border: 3px solid var(--primary);
@@ -474,8 +426,29 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .score-circle strong { font-size: 26px; line-height: 1; }
-    .score-circle span { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .score-circle strong { font-size: 28px; line-height: 1; }
+    .score-circle span { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+
+    .score-bar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 13.5px;
+    }
+    .score-bar-track {
+      height: 7px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .score-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 999px;
+    }
 
     .jd-card {
       background: var(--surface);
@@ -548,6 +521,17 @@
     .tag.green { background: var(--ok-bg); color: var(--ok-text); }
     .tag.red { background: var(--danger-bg); color: var(--danger-text); }
     .tag.amber { background: var(--warn-bg); color: var(--warn-text); }
+    .timer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: #EEF2FF;
+      color: #3730A3;
+    }
 
     /* Editable Placeholder Pill */
     .edit-pill {
@@ -568,10 +552,10 @@
       border-color: #EA580C;
     }
 
-    /* Experience Level Chips */
+    /* Experience Level Chips (5 options) */
     .exp-chip-group {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
     }
     @media (max-width: 480px) {
@@ -651,27 +635,6 @@
       gap: 12px;
     }
     @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
-
-    .preset-row {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .preset-chip {
-      border: 1px solid var(--border-strong);
-      background: var(--surface-soft);
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .preset-chip:hover, .preset-chip.active {
-      background: var(--primary);
-      color: #FFF;
-      border-color: var(--primary);
-    }
 
     /* Spinner & Toast */
     .spinner {
@@ -790,34 +753,34 @@
     <section id="view-home" class="view active">
       <div class="home-grid">
         <div class="home-left">
-          <h1 class="hero-title">粘贴岗位网址或任意招聘截图<br/><span class="mark">1 分钟搞定排雷、开场白与改简历</span></h1>
+          <h1 class="hero-title">粘贴岗位网址或任意招聘截图<br/><span class="mark">1 分钟搞定岗位解析、改简历与自我介绍</span></h1>
 
           <div class="value-card">
             <span class="value-num">01</span>
             <div>
-              <h4>加分项 & 简历短板诊断</h4>
-              <p>对照目标岗位要求与你的简历经历，精准拎出核心加分项与简历能力短板，不搞虚头巴脑的打分。</p>
+              <h4>岗位解析 & 4 维度匹配度打分</h4>
+              <p>拆解 JD 核心业务痛点与隐形考察点，结合你的求职阶段与简历，输出 0–100 分透明匹配度评分与短板诊断。</p>
             </div>
           </div>
           <div class="value-card">
             <span class="value-num">02</span>
             <div>
-              <h4>千人千面 Boss 打招呼语</h4>
-              <p>结合 JD 痛点与简历亮点，生成 3 种风格真人感开场白，一键复制发给 HR。</p>
+              <h4>简历微调 & 面试口语讲述范本</h4>
+              <p>按求职阶段精准改写每段经历，正下方直接附带 1.5 分钟“面试怎么讲”逐字范本与高频追问。</p>
             </div>
           </div>
           <div class="value-card">
             <span class="value-num">03</span>
             <div>
-              <h4>简历微调 & 面试口语讲述范本</h4>
-              <p>按工作年限精准改写每段经历，正下方直接附带 1.5 分钟“面试怎么讲”逐字范本与高频追问。</p>
+              <h4>基于优化后简历的专属自我介绍</h4>
+              <p>围绕优化后的项目/实习/比赛经历与核心职责自然展开，不堆砌生硬数字，直击面试官最关心的 JD 匹配点。</p>
             </div>
           </div>
           <div class="value-card">
             <span class="value-num">04</span>
             <div>
               <h4>联动面试准备 & 公司背调</h4>
-              <p>解析完的岗位自动留存 JD，一键生成专属面试清单与联网公司背景调研。</p>
+              <p>解析完的岗位自动留存 JD，一键生成专属面试清单与联网公司背景调研，全程可见实时生成耗时。</p>
             </div>
           </div>
         </div>
@@ -844,7 +807,7 @@
               </div>
               <div id="antiCrawlNotice" class="notice-box notice-warn hidden">
                 <div>
-                  <strong>检测到 Boss 直聘 / 猎聘防抓取保护：</strong>该平台需要登录态，网页端无法直接读取。请直接把岗位页面截图，按 <strong>Ctrl+V</strong> 粘贴进来，3 秒自动识图！
+                  <strong>检测到 Boss 直聘 / 猎聘防抓取保护：</strong>该平台需要登录态，网页端无法直接读取。请直接把岗位页面截图，按 <strong>Ctrl+V</strong> 粘贴进来，自动识图！
                   <div class="mt-2">
                     <button class="btn btn-primary btn-sm" onclick="switchInputMode('img')">切换到截图识别 →</button>
                   </div>
@@ -860,7 +823,7 @@
               <p class="text-sm mt-2">支持公开招聘官网（通过 Jina Reader 提取正文）；Boss / 猎聘岗位建议直接切到「传截图 / Ctrl+V」。</p>
             </div>
 
-            <!-- Input Mode: Screenshot OCR (Any platform + Multi-image) -->
+            <!-- Input Mode: Screenshot OCR -->
             <div id="input-img" class="hidden">
               <div id="imgDropzone" class="dropzone" onclick="document.getElementById('jobImgFile').click()">
                 <div style="font-size:24px; margin-bottom:4px;">📋</div>
@@ -902,13 +865,13 @@
             <!-- Step 2 -->
             <div class="step-header">
               <span class="step-tag s2">第 2 步</span>
-              <h3 class="step-title">确认你的简历与求职偏好</h3>
+              <h3 class="step-title">确认你的简历与求职阶段（必选）</h3>
             </div>
 
             <div class="resume-strip">
               <div style="flex:1; min-width:200px;">
                 <div id="homeResumeName" style="font-weight:700; font-size:14px;">尚未上传简历（支持 PDF / DOCX / TXT / 图片）</div>
-                <div id="homePrefSummary" class="text-sm">点击右侧上传或粘贴你的简历与排雷偏好</div>
+                <div id="homePrefSummary" class="text-sm">点击右侧上传简历并必选当前求职阶段 / 工作年限</div>
               </div>
               <button class="btn btn-outline btn-sm" onclick="openResumeDrawer()">上传 / 编辑档案</button>
             </div>
@@ -924,13 +887,14 @@
       </div>
     </section>
 
-    <!-- ==================== VIEW 2: ANALYSIS RESULT (AI 深度分析结果页) ==================== -->
+    <!-- ==================== VIEW 2: ANALYSIS RESULT ==================== -->
     <section id="view-result" class="view">
       <div class="result-topbar">
-        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-outline btn-sm" onclick="switchView('home')">← 返回录入新岗位</button>
           <h2 id="resHeaderTitle" style="margin:0; font-size:20px;">岗位分析结果</h2>
           <span id="resStatusBadge" class="tag yellow">待投递</span>
+          <span id="resElapsedBadge" class="timer-badge hidden">⏱️ 耗时 --</span>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <select id="resStatusSelect" style="width:auto; padding:6px 10px; font-size:13px;" onchange="updateCurrentRecordStatus(this.value)">
@@ -942,8 +906,12 @@
         </div>
       </div>
 
-      <!-- Summary & Pros/Cons Card -->
+      <!-- Summary & Match Score Card -->
       <div class="score-card">
+        <div class="score-circle">
+          <strong id="resMatchScore">--</strong>
+          <span>匹配度/100</span>
+        </div>
         <div style="flex:1; min-width:240px;">
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
             <span id="resVerdictTag" class="tag green">推荐投递</span>
@@ -953,7 +921,7 @@
         </div>
       </div>
 
-      <!-- Original JD Card (with Manual Adjustment & Re-analyze) -->
+      <!-- Original JD Card -->
       <div class="jd-card">
         <div class="flex-between">
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -996,23 +964,24 @@
         </div>
       </div>
 
-      <!-- 4 Core Tabs -->
+      <!-- 5 Core Tabs -->
       <div class="result-tabs">
-        <button class="rtab active" data-rtab="greetings" onclick="switchResultTab('greetings')">1. Boss 打招呼语</button>
-        <button class="rtab" data-rtab="resume" onclick="switchResultTab('resume')">2. 简历微调与面试怎么讲</button>
-        <button class="rtab" data-rtab="interview" onclick="switchResultTab('interview')">3. 一键面试准备清单</button>
-        <button class="rtab" data-rtab="research" onclick="switchResultTab('research')">4. 公司背景调研</button>
+        <button class="rtab active" data-rtab="jobAnalysis" onclick="switchResultTab('jobAnalysis')">1. 岗位解析与匹配度</button>
+        <button class="rtab" data-rtab="resume" onclick="switchResultTab('resume')">2. 简历微调与怎么讲</button>
+        <button class="rtab" data-rtab="selfIntro" onclick="switchResultTab('selfIntro')">3. 面试自我介绍</button>
+        <button class="rtab" data-rtab="interview" onclick="switchResultTab('interview')">4. 一键面试准备清单</button>
+        <button class="rtab" data-rtab="research" onclick="switchResultTab('research')">5. 公司背景调研</button>
       </div>
 
-      <!-- Tab 1: Boss Greetings -->
-      <div id="rtab-greetings" class="card">
+      <!-- Tab 1: Job Analysis & Match Score -->
+      <div id="rtab-jobAnalysis" class="card">
         <div class="flex-between mb-2">
           <div>
-            <h3 style="margin:0; font-size:16px;">千人千面 Boss 开场白（专业得体、65-105字）</h3>
-            <p class="text-sm" style="margin:4px 0 0;">提炼整合简历核心能力与岗位契合点，不卑不亢、无过度口语化，点击复制切回 Boss 直接发送。</p>
+            <h3 style="margin:0; font-size:16px;">岗位深度解析 & 4 维度匹配度拆解</h3>
+            <p class="text-sm" style="margin:4px 0 0;">帮你看透这份 JD 真正要招什么样的人，以及你目前的匹配得分依据。</p>
           </div>
         </div>
-        <div id="greetingsList" class="mt-3"></div>
+        <div id="jobAnalysisContent" class="mt-3"></div>
       </div>
 
       <!-- Tab 2: Resume Tuning & Editable Templates -->
@@ -1031,9 +1000,24 @@
           </div>
         </div>
         <div id="templateDemoBox" class="sub-card"></div>
+
+        <div class="mt-3" style="text-align:right;">
+          <button class="btn btn-primary btn-sm" onclick="switchResultTab('selfIntro')">已按优化后的简历生成自我介绍 → 去查看</button>
+        </div>
       </div>
 
-      <!-- Tab 3: Embedded Interview Prep -->
+      <!-- Tab 3: Self Introduction -->
+      <div id="rtab-selfIntro" class="card hidden">
+        <div class="flex-between mb-2">
+          <div>
+            <h3 style="margin:0; font-size:16px;">基于优化后简历的专属面试自我介绍</h3>
+            <p class="text-sm" style="margin:4px 0 0;">围绕你做过的项目/实习/比赛经历与负责的职责展开，不强行堆砌量化数字，让面试官一眼听懂你和目标 JD 的契合点。</p>
+          </div>
+        </div>
+        <div id="selfIntroContent" class="mt-3"></div>
+      </div>
+
+      <!-- Tab 4: Embedded Interview Prep -->
       <div id="rtab-interview" class="card hidden">
         <div id="embeddedInterviewEmpty" style="text-align:center; padding:24px 12px;">
           <h3 style="margin:0 0 8px;">基于当前岗位 JD 与你的简历生成面试清单</h3>
@@ -1042,12 +1026,12 @@
         </div>
         <div id="embeddedInterviewLoading" class="loading-box hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div>正在结合简历与 JD 拆解面试考察重点与必考追问...</div>
+          <div id="embeddedInterviewLoadingText">正在结合简历与 JD 拆解面试考察重点与必考追问...</div>
         </div>
         <div id="embeddedInterviewContent" class="hidden"></div>
       </div>
 
-      <!-- Tab 4: Embedded Company Research -->
+      <!-- Tab 5: Embedded Company Research -->
       <div id="rtab-research" class="card hidden">
         <div class="flex-between mb-2">
           <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:240px;">
@@ -1058,7 +1042,7 @@
         <p class="text-sm" style="margin:4px 0 14px;">提示：若 Boss 上显示的是公司简称，建议改成工商全称后调研，联网检索结果更准确。</p>
         <div id="embeddedResearchLoading" class="loading-box hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div>正在调研公司业务基本盘、风控口碑与近期动态...</div>
+          <div id="embeddedResearchLoadingText">正在调研公司业务基本盘、风控口碑与近期动态...</div>
         </div>
         <div id="embeddedResearchContent" class="hidden"></div>
       </div>
@@ -1098,7 +1082,7 @@
         <div id="soloIntError" class="notice-box notice-err hidden"></div>
         <div id="soloIntLoading" class="loading-box hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div>正在生成结构化面试准备清单...</div>
+          <div id="soloIntLoadingText">正在生成结构化面试准备清单...</div>
         </div>
         <div id="soloIntResult" class="mt-4 hidden"></div>
       </div>
@@ -1130,7 +1114,7 @@
         <div id="soloResError" class="notice-box notice-err hidden"></div>
         <div id="soloResLoading" class="loading-box hidden">
           <div class="spinner dark" style="width:24px;height:24px;margin-bottom:10px;"></div>
-          <div>正在分析公司业务、风控口碑与近期动态...</div>
+          <div id="soloResLoadingText">正在分析公司业务、风控口碑与近期动态...</div>
         </div>
         <div id="soloResResult" class="mt-4 hidden"></div>
       </div>
@@ -1141,7 +1125,7 @@
       <div class="flex-between mb-2">
         <div>
           <h2 style="margin:0;">投递记录与面试看板</h2>
-          <p class="text-sm" style="margin:4px 0 0;">所有分析记录均保存在你本机浏览器中，随时重新打开查看打招呼语、JD 原文或生成面试清单。</p>
+          <p class="text-sm" style="margin:4px 0 0;">所有分析记录均保存在你本机浏览器中，随时重新打开查看岗位解析、自我介绍、JD 原文或面试清单。</p>
         </div>
         <button class="btn btn-outline btn-sm" onclick="clearAllHistory()">清空全部记录</button>
       </div>
@@ -1172,23 +1156,24 @@
       </div>
       <div class="form-row">
         <label>简历正文内容（上传后自动提取，也可直接粘贴修改）*</label>
-        <textarea id="profResumeText" rows="8" placeholder="在此粘贴你的教育背景、工作/项目经历、技能特长..."></textarea>
+        <textarea id="profResumeText" rows="8" placeholder="在此粘贴你的教育背景、工作/实习/项目/比赛经历、技能特长..."></textarea>
       </div>
 
       <hr style="border:none; border-top:1px solid var(--border); margin:18px 0;" />
 
       <div class="form-row">
-        <label>当前求职阶段 / 工作年限（决定简历改写与面试出题策略）</label>
+        <label>当前求职阶段 / 工作年限 <span style="color:#DC2626;">*（必选）</span></label>
         <div class="exp-chip-group" id="expChipGroup">
+          <button type="button" class="exp-chip" data-exp="在校实习生" onclick="selectExperienceLevel('在校实习生')">在校实习生</button>
           <button type="button" class="exp-chip" data-exp="应届毕业生" onclick="selectExperienceLevel('应届毕业生')">应届毕业生</button>
           <button type="button" class="exp-chip" data-exp="1-3年" onclick="selectExperienceLevel('1-3年')">1-3年</button>
           <button type="button" class="exp-chip" data-exp="3-5年" onclick="selectExperienceLevel('3-5年')">3-5年</button>
           <button type="button" class="exp-chip" data-exp="5年以上" onclick="selectExperienceLevel('5年以上')">5年以上</button>
         </div>
-        <div class="text-sm mt-2">选填，不选则由 AI 根据简历自动判断；再次点击已选项可取消。</div>
+        <div class="text-sm mt-2">必选项：将直接决定岗位匹配度打分、简历改写深度以及自我介绍的侧重点。</div>
       </div>
 
-      <h4 style="margin:14px 0 12px;">求职偏好与硬性排雷</h4>
+      <h4 style="margin:14px 0 12px;">求职偏好与硬性排雷（选填）</h4>
       <div class="grid-2">
         <div class="form-row">
           <label>想做的方向</label>
@@ -1239,7 +1224,6 @@
       </div>
       <div id="redeemFeedback" class="notice-box hidden"></div>
 
-      <!-- 【上线前可修改】下方引流文案可替换为你的小红书号或微信 -->
       <div class="sub-card mt-3" style="margin-bottom:0; font-size:13px; color:var(--text-muted); line-height:1.7;">
         <div style="font-weight:700; color:var(--text); margin-bottom:4px;">💡 如何获取更多使用次数？</div>
         <div>体验次数用完后，可在小红书私信 <strong>「投递搭子」</strong>（或联系客服微信）获取专属兑换码，输入上方即可立即生效，已保存的简历与历史分析记录不会丢失。</div>
@@ -1271,6 +1255,20 @@
       if (window.pdfjsLib && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
       }
+    }
+
+    // ==================== LIVE TIMER HELPER ====================
+    function startLiveTimer(onTick) {
+      const start = performance.now();
+      onTick('0.0s');
+      const timerId = setInterval(() => {
+        const sec = ((performance.now() - start) / 1000).toFixed(1) + 's';
+        onTick(sec);
+      }, 100);
+      return function stopTimer() {
+        clearInterval(timerId);
+        return ((performance.now() - start) / 1000).toFixed(1) + 's';
+      };
     }
 
     // ==================== DEPLOYMENT CONFIG ====================
@@ -1373,46 +1371,51 @@
     // ==================== EXPERIENCE LEVEL PROMPT RULES ====================
     function getExperienceStrategy(level) {
       const strategies = {
+        '在校实习生': {
+          resume: `【当前求职者阶段：在校实习生（必须严格执行）】
+1. 简历优化优先级：死磕「实习经历」与「学科竞赛/比赛经历」（若暂无实习，则重点包装课程设计/科研/比赛项目，按真实职场项目标准重写），教育背景置顶。
+2. 改写策略：紧扣目标 JD 核心能力词，将“协助执行”转化为“围绕业务目标拆解并完成交付”，突出学习迁移能力与业务 Sense。
+3. 面试自我介绍侧重：着重介绍过往的【实习经历或比赛经历】以及在其中具体负责的职责，不需要堆砌量化数字，重点让面试官听懂你在做什么、以及为什么和目标 JD 匹配。`,
+          interview: `【当前求职者阶段：在校实习生】
+面试出题重点：1) 实习经历或比赛项目中的个人真实分工与细节深挖；2) 专业基础知识、工具上手速度与学习迁移能力；3) 对目标岗位的理解、到岗时间与实习稳定性。`
+        },
         '应届毕业生': {
           resume: `【当前求职者阶段：应届毕业生（必须严格执行）】
-1. 简历优化优先级：死磕「实习经历」（若实在无实习，则重点包装课程设计/科研/竞赛项目，按真实职场项目标准重写），教育背景优先置顶。
+1. 简历优化优先级：死磕「实习经历」与「比赛/科研项目经历」，教育背景优先置顶。
 2. 不匹配/打杂实习的改写与扩写策略：
-  - 如果原实习经历与目标 JD 不太匹配或偏“打杂”，不要直接舍弃，而要紧扣目标 JD 的核心痛点与高频能力词，对原实习经历进行合理扩写与视角拔高（能力迁移），将“听指令执行”转化为“围绕业务目标解决问题”。
-  - 必须突出「业务 Sense」：每段核心经历尽量体现【业务背景/目标 → 拆解动作/方法 → 复盘/结果】的闭环，展示求职者懂业务、有思考。
-  - 严禁凭空编造具体营收或虚高数据，扩写中需要数据支撑的位置，统一用 [待补充：如提升XX% / 调研XX份] 标出，方便求职者填写真实数字应对面试深挖。
-3. Boss 打招呼语侧重：强调可快速到岗/实习积累、专业基础与岗位直接相关的项目/实习经历，态度诚恳不卑不亢。`,
+  - 紧扣目标 JD 的核心痛点与高频能力词，对原实习或比赛经历进行合理视角拔高（能力迁移），将“听指令执行”转化为“围绕业务目标解决问题”。
+  - 突出「业务 Sense」：体现【业务背景/目标 → 拆解动作/方法 → 复盘/结果】的闭环。
+  - 严禁凭空编造具体营收或虚高数据，需要数据支撑的位置统一用 [待补充：...] 标出。
+3. 面试自我介绍侧重：着重介绍【实习经历或比赛经历】以及具体负责的职责，不需要说量化的东西，重点让面试官了解你在做的事情以及和目标 JD 的匹配度。`,
           interview: `【当前求职者阶段：应届毕业生】
-面试出题重点：1) 针对改写/扩写后的实习或校园项目细节深挖（重点防穿帮、问清个人真实分工）；2) 专业基础知识与学习迁移能力；3) 结合目标岗位业务的场景思考题与求职动机/稳定性。`
+面试出题重点：1) 实习或比赛/校园项目细节深挖（问清个人真实分工）；2) 专业基础知识与学习迁移能力；3) 结合目标岗位业务的场景思考题与求职动机/稳定性。`
         },
         '1-3年': {
           resume: `【当前求职者阶段：1-3 年工作经验（必须严格执行）】
 1. 简历优化优先级：工作经历前置，彻底去学生气（建议精简或删除无关的校园社团经历）。
-2. 改写侧重：突出「独立负责的模块」、具体业务交付物以及可量化的效率/指标提升，证明候选人“来了就能独当一面干活”。
-3. Boss 打招呼语侧重：直接亮出对口行业经验 + 核心技能栈 + 1 个最拿得出手的具体产出。`,
+2. 改写侧重：突出「独立负责的模块」、具体业务交付物以及解决实际业务问题的能力，证明候选人“来了就能独当一面干活”。
+3. 面试自我介绍侧重：清晰概述过往核心项目经历与独立负责的职责，不需要说量化的东西，让面试官直观了解你一直在做什么业务、以及和目标 JD 的契合度。`,
           interview: `【当前求职者阶段：1-3 年工作经验】
-面试出题重点：1) 具体业务场景实操与问题排查；2) 过往项目踩坑与复盘经历；3) 跨部门协作细节与离职原因（重点排查抗压能力与稳定性）。`
+面试出题重点：1) 具体业务场景实操与问题排查；2) 过往项目踩坑与复盘经历；3) 跨部门协作细节与离职原因。`
         },
         '3-5年': {
           resume: `【当前求职者阶段：3-5 年工作经验（必须严格执行）】
 1. 简历优化优先级：从“执行者”视角升级为“Owner”视角，减少琐碎执行细节。
-2. 改写侧重：突出复杂项目从 0 到 1 或从 1 到 10 的推进、方法论/SOP 沉淀、核心业务结果（转化/留存/增长/降本）以及跨团队推动或带新人的经历。
-3. Boss 打招呼语侧重：突出核心业务成果与解决过 JD 同类痛点的经验，以平等沟通业务问题的口吻切入。`,
+2. 改写侧重：突出复杂项目从 0 到 1 或从 1 到 10 的推进、方法论/SOP 沉淀以及跨团队推动或带新人的经历。
+3. 面试自我介绍侧重：概述主导过的核心项目经历与 Owner 职责，不需要说量化的东西，重点展示你的业务盘子、核心职责与目标 JD 的高度匹配。`,
           interview: `【当前求职者阶段：3-5 年工作经验】
 面试出题重点：1) 复杂业务拆解与方法论沉淀；2) 资源有限时的需求优先级取舍；3) 跨部门推动与冲突解决；4) 对行业与竞品的独立判断。`
         },
         '5年以上': {
           resume: `【当前求职者阶段：5 年以上资深/管理经验（必须严格执行）】
 1. 简历优化优先级：大刀阔斧做减法，删掉基础执行层细节。
-2. 改写侧重：突出战略规划、团队管理规模、组织/架构升级、降本增效以及对公司核心经营指标的直接贡献。
-3. Boss 打招呼语侧重：极简、克制，直接点出过往操盘规模/核心战绩，表达对目标公司业务方向的兴趣，邀约进一步沟通。`,
+2. 改写侧重：突出战略规划、团队管理、组织/架构升级以及对核心业务方向的把控。
+3. 面试自我介绍侧重：简练概述操盘过的核心项目/业务线以及承担的管理或架构职责，不需要说量化的东西，重点体现与目标岗位的业务匹配度。`,
           interview: `【当前求职者阶段：5 年以上资深/管理经验】
 面试出题重点：1) 团队搭建、梯队培养与绩效管理；2) 向上管理与跨部门高阶博弈；3) 业务增长瓶颈破局与 ROI 决策逻辑；4) 行业前瞻性与长期规划。`
         }
       };
-      return strategies[level] || {
-        resume: '【求职者阶段】：未手动指定，请根据简历中的毕业时间与工作年限自动判断所处阶段（应届生/1-3年/3-5年/5年以上）并匹配相应改写深度。',
-        interview: '【求职者阶段】：未手动指定，请根据简历自动判断候选人资历并匹配对应深度的面试题。'
-      };
+      return strategies[level] || strategies['应届毕业生'];
     }
 
     // ==================== INITIALIZATION ====================
@@ -1443,22 +1446,26 @@
       }
 
       const hasResume = !!(profile.resumeText && profile.resumeText.trim().length > 20);
-      document.getElementById('resumeDot').className = 'dot ' + (hasResume ? 'ok' : 'warn');
-      document.getElementById('resumeNavText').textContent = hasResume ? '求职档案(已就绪)' : '求职档案(未上传)';
+      const hasStage = !!profile.experienceLevel;
+      const isReady = hasResume && hasStage;
+      document.getElementById('resumeDot').className = 'dot ' + (isReady ? 'ok' : 'warn');
+      document.getElementById('resumeNavText').textContent = isReady
+        ? `求职档案(${profile.experienceLevel})`
+        : (hasResume ? '求职档案(待选阶段)' : '求职档案(未上传)');
 
       if (hasResume) {
         document.getElementById('homeResumeName').textContent = '✓ 已加载：' + (profile.fileName || '我的个人简历') + `（${profile.resumeText.length} 字）`;
         const prefs = [
-          profile.experienceLevel ? `阶段:${profile.experienceLevel}` : '',
+          profile.experienceLevel ? `阶段:${profile.experienceLevel}` : '⚠️ 未选求职阶段（必选）',
           profile.direction,
           profile.city,
           profile.salary,
           profile.avoid ? '排雷:' + profile.avoid : ''
         ].filter(Boolean);
-        document.getElementById('homePrefSummary').textContent = prefs.length ? prefs.join(' ｜ ') : '暂未填写求职阶段与偏好（可点击右侧补充）';
+        document.getElementById('homePrefSummary').textContent = prefs.join(' ｜ ');
       } else {
         document.getElementById('homeResumeName').textContent = '尚未上传简历（支持 PDF / DOCX / TXT / 图片）';
-        document.getElementById('homePrefSummary').textContent = '点击右侧上传或粘贴你的简历与排雷偏好';
+        document.getElementById('homePrefSummary').textContent = '点击右侧上传简历并必选当前求职阶段 / 工作年限';
       }
 
       document.getElementById('historyCount').textContent = historyRecords.length;
@@ -1588,7 +1595,7 @@
       }
     }
 
-    // ==================== AI CALL HELPER (BACKEND PROXY) ====================
+    // ==================== AI CALL HELPER ====================
     async function callAI({ messages, useVision = false, enableSearch = false, temperature = 0.4 }) {
       const res = await fetch(API_BASE + '/api/chat', {
         method: 'POST',
@@ -1671,7 +1678,7 @@
     }
 
     function selectExperienceLevel(level) {
-      tempExperienceLevel = (tempExperienceLevel === level) ? '' : level;
+      tempExperienceLevel = level;
       renderExpChips();
     }
 
@@ -1699,6 +1706,10 @@
       statusEl.textContent = files.length > 1 ? `正在解析 ${files.length} 个文件...` : `正在解析 ${files[0].name}...`;
       statusEl.classList.remove('hidden');
 
+      const stopTimer = startLiveTimer(sec => {
+        statusEl.textContent = `正在解析简历文件... (已用时 ${sec})`;
+      });
+
       try {
         const allImages = files.every(f => f.type.startsWith('image/'));
         let extracted = '';
@@ -1706,7 +1717,6 @@
 
         if (allImages) {
           const imgList = files.slice(0, 6);
-          statusEl.textContent = `正在调用视觉大模型识别 ${imgList.length} 张简历截图...`;
           const dataUrls = [];
           for (const imgFile of imgList) {
             dataUrls.push(await compressImageFile(imgFile, 1500));
@@ -1718,7 +1728,7 @@
               {
                 role: 'user',
                 content: [
-                  { type: 'text', text: `请完整、准确地提取这 ${imgList.length} 张简历图片中的全部文字信息（包括基本信息、教育背景、工作/项目经历、技能特长），按顺序合并去重并保持清晰分段，不要编造任何内容，直接输出纯文本。` },
+                  { type: 'text', text: `请完整、准确地提取这 ${imgList.length} 张简历图片中的全部文字信息（包括基本信息、教育背景、工作/实习/项目/比赛经历、技能特长），按顺序合并去重并保持清晰分段，不要编造任何内容，直接输出纯文本。` },
                   ...dataUrls.map(url => ({ type: 'image_url', image_url: { url } }))
                 ]
               }
@@ -1753,11 +1763,13 @@
           }
         }
 
+        const elapsed = stopTimer();
         document.getElementById('profFileName').value = displayName;
         document.getElementById('profResumeText').value = extracted;
         statusEl.className = 'notice-box notice-ok';
-        statusEl.textContent = `✓ 解析成功！共提取 ${extracted.length} 字，请核对后点击下方“保存档案”。`;
+        statusEl.textContent = `✓ 解析成功（耗时 ${elapsed}）！共提取 ${extracted.length} 字，请选择求职阶段后点击下方“保存求职档案”。`;
       } catch (err) {
+        stopTimer();
         statusEl.className = 'notice-box notice-err';
         statusEl.textContent = '✗ 解析失败：' + err.message;
       } finally {
@@ -1769,6 +1781,10 @@
       const resumeText = document.getElementById('profResumeText').value.trim();
       if (resumeText.length < 20) {
         showToast('请先上传简历或粘贴至少 20 字的简历内容');
+        return;
+      }
+      if (!tempExperienceLevel) {
+        showToast('请必选「当前求职阶段 / 工作年限」后再保存');
         return;
       }
       profile = {
@@ -1803,7 +1819,9 @@
       }
       const btn = document.getElementById('fetchUrlBtn');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner dark"></span> 抓取中';
+      const stopTimer = startLiveTimer(sec => {
+        btn.innerHTML = `<span class="spinner dark"></span> 抓取中 ${sec}`;
+      });
       try {
         const res = await fetch('https://r.jina.ai/' + url);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1811,8 +1829,9 @@
         if (!text || text.length < 60) throw new Error('未能提取到有效正文，可能该网站需要登录');
         document.getElementById('urlJdTextarea').value = text.slice(0, 6000);
         document.getElementById('urlFetchResult').classList.remove('hidden');
-        showToast('网页 JD 抓取成功');
+        showToast(`网页 JD 抓取成功（耗时 ${stopTimer()}）`);
       } catch (err) {
+        stopTimer();
         showToast('抓取受限，请改用截图识别或直接粘贴 JD');
       } finally {
         btn.disabled = false;
@@ -1944,8 +1963,10 @@
       const btn = document.getElementById('runOcrBtn');
       const status = document.getElementById('ocrStatusText');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner dark"></span> 合并识图中...';
-      status.textContent = `正在调用视觉大模型合并识别 ${currentJobImgs.length} 张截图...`;
+      const stopTimer = startLiveTimer(sec => {
+        btn.innerHTML = `<span class="spinner dark"></span> 识图中 ${sec}`;
+        status.textContent = `正在调用视觉大模型合并识别 ${currentJobImgs.length} 张截图... (已用时 ${sec})`;
+      });
 
       try {
         const contentParts = [
@@ -1970,6 +1991,7 @@
           temperature: 0.1,
           messages: [{ role: 'user', content: contentParts }]
         });
+        const elapsed = stopTimer();
         const parsed = extractJSON(raw);
         currentOcrMeta = parsed;
         const combinedJd = [
@@ -1986,10 +2008,13 @@
         document.getElementById('ocrCompanyInput').value = parsed.company || '';
         document.getElementById('ocrJobTitleInput').value = parsed.jobTitle || '';
         document.getElementById('ocrJdTextarea').value = combinedJd;
-        document.getElementById('ocrMetaTag').textContent = `✓ 已合并识别 ${currentJobImgs.length} 张图：${parsed.company || '未知公司'} · ${parsed.jobTitle || '目标岗位'}`;
+        document.getElementById('ocrMetaTag').textContent = `✓ 已合并识别 ${currentJobImgs.length} 张图（耗时 ${elapsed}）：${parsed.company || '未知公司'} · ${parsed.jobTitle || '目标岗位'}`;
         document.getElementById('ocrResultBox').classList.remove('hidden');
-        status.textContent = `已完成 ${currentJobImgs.length} 张截图合并识别，可直接开始深度分析`;
+        status.textContent = `已完成 ${currentJobImgs.length} 张截图合并识别（耗时 ${elapsed}），可直接开始深度分析`;
         return { jdText: combinedJd, meta: parsed };
+      } catch (err) {
+        stopTimer();
+        throw err;
       } finally {
         btn.disabled = false;
         btn.textContent = '🔍 重新合并识图';
@@ -1999,12 +2024,12 @@
     // ==================== CORE FLOW: FULL AI ANALYSIS ====================
     async function runDeepAnalysisAI(jdText, overrideCompany = '', overrideJobTitle = '') {
       const prefText = [
-        profile.experienceLevel ? `求职阶段/工作年限：${profile.experienceLevel}` : '',
+        `求职阶段/工作年限（必选）：${profile.experienceLevel}`,
         profile.direction ? `想做的方向：${profile.direction}` : '',
         profile.city ? `目标城市：${profile.city}` : '',
         profile.salary ? `期望薪资：${profile.salary}` : '',
         profile.avoid ? `明确不想做（硬性排雷）：${profile.avoid}` : ''
-      ].filter(Boolean).join('；') || '无特殊限制';
+      ].filter(Boolean).join('；');
 
       const expStrategy = getExperienceStrategy(profile.experienceLevel).resume;
 
@@ -2012,84 +2037,95 @@
         ? `\n【用户已手动确认的信息】：公司名称=${overrideCompany || '未指定'}，岗位名称=${overrideJobTitle || '未指定'}（请以用户手动确认的信息为准）\n`
         : '';
 
-      const prompt = `你是一位实战派招聘顾问与简历诊断专家，擅长对比目标岗位要求精准找出候选人简历的亮点与能力短板，并写出得体有专业度的高回复率沟通话术。请严格基于候选人的【真实简历】、【求职偏好】和【目标岗位 JD】进行分析。
-严禁凭空捏造候选人没做过的经历或假数据！凡是需要候选人自己补充的真实数字或细节，必须用方括号包裹，例如 [待补充：如提升X%]、[具体项目名]。
+      const prompt = `你是一位实战派招聘顾问与简历诊断专家，擅长拆解目标岗位 JD、给出客观透明的岗位匹配度打分、针对性优化简历，并基于优化后的简历写出自然贴合 JD 的面试自我介绍。
+严禁凭空捏造候选人没做过的经历或假数据！凡是需要候选人自己补充的真实细节，必须用方括号包裹，例如 [待补充：具体项目名]。
 ${manualHint}
 ${expStrategy}
 
 【候选人简历】：
 ${profile.resumeText.slice(0, 6000)}
 
-【候选人偏好与排雷】：
+【候选人求职阶段与偏好】：
 ${prefText}
 
 【目标岗位 JD】：
 ${jdText.slice(0, 5000)}
 
-【一、加分项与简历短板诊断规则（必须严格执行）】：
-不要输出任何数字分数，也不要提“扣分”字眼！
-**核心边界铁律：绝对不要对目标公司本身、薪资高低、加班文化或岗位职责本身做任何“排雷”或负面评判！** 所有的短板诊断（cons）必须**100% 聚焦于候选人自身简历与目标岗位 JD 要求之间的差距**。
-1. 加分项（pros）：精准拎出候选人简历里最戳中该 JD 痛点的硬核经历、技能或项目成果（2-3条，大白话直说亮点）。
-2. 简历短板（cons）：严格对照目标岗位 JD 的任职要求与业务场景，客观诊断候选人【当前简历】存在的不足（2-3条，只针对简历本身）：
-  - 技能/工具缺口：JD 明确要求但简历中未体现或不够熟练的核心工具、语言或专业技能。
-  - 经历/场景差距：简历项目缺少 JD 要求的全链路落地、跨部门协同或对应业务场景的实战经验。
-  - 表达与证明力短板：简历中某段关键经历写得过于笼统、缺少业务问题拆解或量化结果支撑。
-3. 投递结论（verdict）：仅根据候选人简历与该岗位要求的匹配程度，以及是否符合候选人自身填写的求职方向/城市偏好，给出“推荐投递”、“谨慎考虑”或“建议跳过”。
+【一、岗位解析与匹配度打分机制（总分 100 分，必须严格按权重累加）】：
+1. 核心技能与工具匹配（满分 35 分）：JD 明确要求的硬技能、工具、专业方法论在简历中的覆盖度与熟练度。
+2. 业务场景与经历契合（满分 35 分）：过往工作/实习/项目/比赛经历与目标岗位核心职责的重合度与可迁移性。
+3. 求职阶段与资历门槛（满分 15 分）：当前求职阶段（${profile.experienceLevel}）与岗位经验要求的匹配度。
+4. 求职偏好与硬性条件（满分 15 分）：目标城市、方向契合度，以及是否触碰候选人填写的排雷词。
+- matchScore 必须等于以上 4 项得分之和（0-100 整数）。
+- 投递结论（verdict）：80-100分给“推荐投递”，60-79分给“可以尝试”，60分以下给“谨慎考虑”。
+- 核心边界铁律：不要对目标公司本身、薪资高低或加班文化做负面评判；短板诊断（cons）100% 聚焦于候选人简历与目标 JD 要求之间的差距。
 
-【二、Boss 打招呼语与简历改写铁律（必须严格遵守）】：
-1. 语气边界（顺滑自然、得体克制，严禁过度口语化与公文腔）：打招呼语要顺滑自然、像真实职场人发消息，既不能用“贵司、深耕、赋能、抓手、闭环、高度契合、久仰、荣幸”等公文套话，也**严禁过度口语化或学生腔大白话**。
-2. 行文节奏（顺滑短句结构）：三派统一采用“您好，我对这个[岗位/方向]很感兴趣。[提炼整合后的背景与核心能力短句]，[另一句顺滑衔接的对口经历或方法]。方便发份简历给您看看吗？”的顺滑节奏。
-3. 简历内容提取整合与三派分工合理性：三派必须各有清晰分工、不撞车、不重复：
-  - 【核心匹配派（推荐）】：侧重整体背景、核心技能与岗位方向的顺滑匹配；
-  - 【场景切入派】：侧重切入具体业务场景/常见工作痛点，说明做过同类事并能顺畅落地；
-  - 【简短破冰派】：侧重轻快得体、不卑不亢的简短破冰。
-4. 绝对禁止在打招呼语中询问薪资或待遇！结尾统一用“方便发份简历给您看看吗？”或“方便发简历给您看看吗？”。字数控制在 65-105 字。
-5. 简历改写与经历示范铁律（强绑定目标岗位 + 全项目覆盖 + 具体情况具体分析 + 不强行量化）：
-  - **逐项覆盖简历中的每一个项目/实习/工作经历**：必须遍历候选人简历里的**每一个项目经历与核心经历**，为每个项目至少输出 1 条针对性改写对比，并标明所属项目/经历名称。
-  - **书面专业表达，严禁口语化**：简历改写（improved）必须采用**凝练、严谨的职场书面简历体**，不强行凑百分比，仅在确需补充真实信息处使用方括号占位符（如 [待补充：具体业务场景/数据]）。
-6. **每段经历的「面试怎么讲」口语讲述范本（pitch）与追问（followUp）**：
-  - 针对 rewrites 数组里的**每一段经历**，都必须同步输出一份 pitch（220-320 字，约 1.5 分钟语速）和 followUp（1 个面试官听完后最可能追问的深挖问题 + 1 句应对思路）。
-  - pitch 要求：自然、克制、有业务 Sense 的真人职场口语，按「1句话交代业务背景与个人角色 → 核心痛点与我的思考/动作（紧扣目标 JD） → 实际产出与 1 句复盘」展开；**严禁出现“S:/T:/A:/R:”等生硬标签**，需要候选人替换的真实数据用 [待补充：...] 标出。
+【二、简历改写与「面试怎么讲」铁律】：
+1. 必须遍历候选人简历里的每一个核心项目/实习/比赛/工作经历，为每个经历输出至少 1 条针对性改写对比（不少于 3 条）。
+2. 简历改写（improved）采用凝练严谨的职场书面简历体，不强行凑百分比。
+3. 针对 rewrites 数组里的每一段经历，同步输出一份 pitch（200-280 字真人感面试口语讲述范本，无 S/T/A/R 生硬标签）和 followUp（1 个高频追问 + 应对思路）。
+
+【三、面试自我介绍铁律（必须基于上方优化后的简历来写！）】：
+1. 必须承接你在 rewrites 中优化后的经历视角来组织自我介绍，而不是照搬原简历的流水账。
+2. 核心内容：清晰概述做过的项目经历以及个人负责的职责，让面试官迅速了解你在做的东西以及和目标 JD 的匹配度。
+3. **严禁堆砌量化数据**：不需要说“提升了XX%”、“带来了XX万”这类量化数字，重点把业务场景、做的事情和职责边界讲清楚、讲自然。
+4. **阶段差异化**：当前候选人是「${profile.experienceLevel}」。如果是「在校实习生」或「应届毕业生」，必须着重讲【实习经历或比赛经历】及负责的职责；如果是社招（1-3年/3-5年/5年以上），着重讲核心工作项目与负责的模块职责。
+5. 字数控制在 220-320 字（约 1-1.5 分钟自然语速），口语流畅自然、不卑不亢。
 
 请严格输出以下 JSON 格式（不要输出 markdown 以外的任何多余文字）：
 {
   "company": "公司名（优先使用用户手动确认的公司名，未提及则填未知公司）",
   "jobTitle": "岗位名称（优先使用用户手动确认的岗位名）",
-  "verdict": "推荐投递 或 谨慎考虑 或 建议跳过",
-  "summary": "一句大白话直击要害的简历匹配度综合判断（35字以内，不要评判公司或岗位好坏，不要提任何分数）",
+  "matchScore": 78,
+  "verdict": "推荐投递 或 可以尝试 或 谨慎考虑",
+  "summary": "一句大白话直击要害的简历匹配度综合判断（35字以内）",
   "pros": ["结合简历真实经历的加分项1", "加分项2"],
   "cons": [
     "针对简历与JD差距的短板诊断1（只针对简历本身）",
     "针对简历内容或表达的短板诊断2（只针对简历本身）"
   ],
-  "greetings": [
-    { "style": "核心匹配派（推荐）", "text": "65-105字，自然得体、不问薪资" },
-    { "style": "场景切入派", "text": "65-105字，与核心匹配派形成互补、不问薪资" },
-    { "style": "简短破冰派", "text": "60-85字，干脆得体、不问薪资" }
-  ],
+  "jobAnalysis": {
+    "corePainPoints": ["这份JD真正要招人解决的核心业务痛点1", "核心痛点2", "核心痛点3"],
+    "hiddenRequirements": ["JD字面背后隐含的真实考察点或筛选门槛1", "隐含考察点2"],
+    "scoreBreakdown": [
+      { "name": "核心技能与工具匹配", "score": 28, "max": 35, "reason": "一句话说明得分与失分点" },
+      { "name": "业务场景与经历契合", "score": 26, "max": 35, "reason": "一句话说明得分与失分点" },
+      { "name": "求职阶段与资历门槛", "score": 12, "max": 15, "reason": "一句话说明得分与失分点" },
+      { "name": "求职偏好与硬性条件", "score": 12, "max": 15, "reason": "一句话说明得分与失分点" }
+    ]
+  },
   "resumeOrder": {
     "pinTop": "明确点名原简历中最契合该JD的1-2段经历，说明为何优先置顶",
     "trimDown": "指出原简历中哪段无关经历可精简压缩，腾出篇幅"
   },
   "rewrites": [
     {
-      "section": "所属经历/项目名称（务必逐段覆盖候选人简历中的每一个项目或实习/工作经历，不少于3条）",
-      "original": "从该经历/项目中直接摘取的一句偏平淡或偏纯执行的真实描述",
+      "section": "所属经历/项目/比赛名称（务必逐段覆盖，不少于3条）",
+      "original": "从该经历中直接摘取的一句偏平淡或偏纯执行的真实描述",
       "keywords": ["JD核心业务关键词1", "JD关键词2", "JD关键词3"],
-      "improved": "采用凝练专业的职场书面简历体，结合求职阶段策略与JD关键词重构，突出业务思维与交付价值，需补充真实细节处用[占位符]标出",
-      "pitch": "220-320字真人感面试口语讲述范本（约1.5分钟）：按“背景痛点与角色→核心思考与动作→结果与1句复盘”自然展开，体现业务Sense，无STAR生硬标签，缺数据处用[待补充：...]标出",
+      "improved": "采用凝练专业的职场书面简历体，结合求职阶段策略与JD关键词重构，需补充真实细节处用[占位符]标出",
+      "pitch": "200-280字真人感面试口语讲述范本（约1.5分钟）：按背景痛点与角色→核心思考与动作→结果与1句复盘自然展开，无STAR生硬标签",
       "followUp": "面试官听完这段最可能追问：……｜应对思路：……"
     }
   ],
   "templates": {
     "work": {
       "targetSkill": "针对JD核心业务痛点的某项关键能力",
-      "example": "一段紧扣该JD关键词、贴合真实职场表达的填空式工作经历示范，用[具体业务场景/交付物]留空"
+      "example": "一段紧扣该JD关键词、贴合真实职场表达的填空式工作/实习经历示范，用[具体业务场景/交付物]留空"
     },
     "project": {
       "targetSkill": "针对JD核心业务痛点的某项项目能力",
-      "example": "一段紧扣该JD关键词、贴合真实项目推进逻辑的填空式项目经历示范，用[项目名称]、[解决的具体卡点]等方括号留空"
+      "example": "一段紧扣该JD关键词、贴合真实项目推进逻辑的填空式项目/比赛经历示范，用[项目名称]、[解决的具体卡点]等方括号留空"
     }
+  },
+  "selfIntro": {
+    "focusNote": "一句话说明本段自我介绍基于优化后的简历重点突出了哪些项目/实习/比赛经历与职责",
+    "script": "220-320字自然口语化的面试自我介绍正文（不堆砌量化数据，清晰概述做过的项目/实习/比赛经历、负责的职责以及与目标JD的匹配点）",
+    "matchHighlights": [
+      "这段自我介绍对应的JD匹配点1",
+      "这段自我介绍对应的JD匹配点2",
+      "这段自我介绍对应的JD匹配点3"
+    ]
   }
 }`;
 
@@ -2110,9 +2146,19 @@ ${jdText.slice(0, 5000)}
         openResumeDrawer();
         return;
       }
+      if (!profile.experienceLevel) {
+        errBox.textContent = '请先在「求职档案」中必选当前求职阶段 / 工作年限（如在校实习生、应届毕业生等）。';
+        errBox.classList.remove('hidden');
+        openResumeDrawer();
+        return;
+      }
 
       const btn = document.getElementById('startAnalyzeBtn');
       btn.disabled = true;
+      let phaseText = '正在准备分析...';
+      const stopTimer = startLiveTimer(sec => {
+        btn.innerHTML = `<span class="spinner"></span> ${phaseText} (已用时 ${sec})`;
+      });
 
       try {
         let jdText = '';
@@ -2126,7 +2172,7 @@ ${jdText.slice(0, 5000)}
           if (!jdText) {
             const url = document.getElementById('jobUrlInput').value.trim();
             if (!url) throw new Error('请先粘贴职位网址，或切换到“传截图 / 粘贴 JD”');
-            btn.innerHTML = '<span class="spinner"></span> 正在抓取网页 JD...';
+            phaseText = '正在抓取网页 JD';
             await fetchUrlJD();
             jdText = document.getElementById('urlJdTextarea').value.trim();
             if (!jdText) throw new Error('无法直接抓取该链接，请改用「传截图 / Ctrl+V」或「粘贴 JD」');
@@ -2136,7 +2182,7 @@ ${jdText.slice(0, 5000)}
           jdText = document.getElementById('ocrJdTextarea').value.trim();
           if (!jdText) {
             if (!currentJobImgs.length) throw new Error('请先上传或按 Ctrl+V 粘贴至少 1 张招聘截图');
-            btn.innerHTML = `<span class="spinner"></span> 第 1/2 步：正在合并识别 ${currentJobImgs.length} 张截图中的岗位信息...`;
+            phaseText = `第 1/2 步：正在合并识别 ${currentJobImgs.length} 张截图`;
             const ocrRes = await runScreenshotOCR();
             jdText = ocrRes.jdText;
             if (ocrRes.meta?.platform && ocrRes.meta.platform !== '未知') {
@@ -2151,12 +2197,14 @@ ${jdText.slice(0, 5000)}
           if (!jdText || jdText.length < 15) throw new Error('请粘贴完整的职位描述（JD）内容');
         }
 
-        btn.innerHTML = '<span class="spinner"></span> 正在深度比对简历与 JD，生成开场白与改写建议...';
+        phaseText = '正在深度解析岗位、优化简历并生成自我介绍';
         const analysis = await runDeepAnalysisAI(jdText, overrideCompany, overrideJobTitle);
+        const elapsed = stopTimer();
 
         const record = {
           id: 'job_' + Date.now(),
           createdAt: new Date().toLocaleString('zh-CN', { hour12: false }),
+          elapsed,
           status: '待投递',
           company: overrideCompany || analysis.company || (currentOcrMeta?.company) || '未知公司',
           jobTitle: overrideJobTitle || analysis.jobTitle || (currentOcrMeta?.jobTitle) || '目标岗位',
@@ -2164,15 +2212,18 @@ ${jdText.slice(0, 5000)}
           jdText,
           analysis,
           interview: null,
-          research: null
+          interviewElapsed: null,
+          research: null,
+          researchElapsed: null
         };
 
         historyRecords.unshift(record);
         saveJSON(STORE_KEYS.HISTORY, historyRecords);
         refreshHeaderStatus();
         openRecordResult(record);
-        showToast('AI 深度分析完成！');
+        showToast(`AI 深度分析完成（耗时 ${elapsed}）！`);
       } catch (err) {
+        stopTimer();
         errBox.textContent = '分析失败：' + err.message;
         errBox.classList.remove('hidden');
       } finally {
@@ -2190,10 +2241,19 @@ ${jdText.slice(0, 5000)}
       document.getElementById('resStatusBadge').textContent = record.status || '待投递';
       document.getElementById('resStatusSelect').value = record.status || '待投递';
 
+      const elapsedBadge = document.getElementById('resElapsedBadge');
+      if (record.elapsed) {
+        elapsedBadge.textContent = `⏱️ 本次分析耗时 ${record.elapsed}`;
+        elapsedBadge.classList.remove('hidden');
+      } else {
+        elapsedBadge.classList.add('hidden');
+      }
+
+      document.getElementById('resMatchScore').textContent = (typeof a.matchScore === 'number') ? a.matchScore : '--';
       const vTag = document.getElementById('resVerdictTag');
       const verdictText = a.verdict || '评估完成';
       vTag.textContent = verdictText;
-      vTag.className = 'tag ' + (verdictText.includes('推荐') ? 'green' : (verdictText.includes('跳过') ? 'red' : 'amber'));
+      vTag.className = 'tag ' + (verdictText.includes('推荐') ? 'green' : (verdictText.includes('谨慎') || verdictText.includes('跳过') ? 'red' : 'amber'));
       document.getElementById('resSummary').textContent = a.summary || '';
 
       const prosHtml = (a.pros || []).map(p => `<div>✅ <strong>加分项：</strong>${escapeHtml(p)}</div>`).join('');
@@ -2209,20 +2269,39 @@ ${jdText.slice(0, 5000)}
       document.getElementById('resJdEditBox').classList.add('hidden');
       document.getElementById('editJdModeBtn').textContent = '✏️ 识别有误？手动修正';
 
-      // Tab 1: Greetings
-      const gList = document.getElementById('greetingsList');
-      gList.innerHTML = (a.greetings || []).map((g, idx) => `
-        <div class="sub-card">
-          <div class="flex-between mb-2">
-            <span class="tag yellow">${escapeHtml(g.style || ('版本 ' + (idx + 1)))}</span>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span class="text-sm">${(g.text || '').length} 字</span>
-              <button class="btn btn-primary btn-sm" onclick="copyGreeting(${idx})">一键复制</button>
+      // Tab 1: Job Analysis & Score Breakdown
+      const ja = a.jobAnalysis || {};
+      const breakdownHtml = (ja.scoreBreakdown || []).map(item => {
+        const pct = Math.min(100, Math.max(0, Math.round(((item.score || 0) / (item.max || 1)) * 100)));
+        return `
+          <div style="margin-bottom:12px;">
+            <div class="score-bar-row">
+              <strong>${escapeHtml(item.name)}</strong>
+              <span class="tag yellow">${item.score ?? '--'} / ${item.max ?? '--'} 分</span>
             </div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${pct}%"></div></div>
+            <div class="text-sm">${escapeHtml(item.reason)}</div>
           </div>
-          <div style="font-size:14.5px; line-height:1.7;">${escapeHtml(g.text)}</div>
+        `;
+      }).join('') || '<div class="text-sm">该历史记录为旧版生成，点击上方「修正 → 保存并重新 AI 分析」即可获取最新 4 维度打分拆解。</div>';
+
+      const painHtml = (ja.corePainPoints || []).map(p => `<li style="margin-bottom:6px;">${escapeHtml(p)}</li>`).join('') || '<li class="text-sm">暂无拆解</li>';
+      const hiddenHtml = (ja.hiddenRequirements || []).map(h => `<li style="margin-bottom:6px;">${escapeHtml(h)}</li>`).join('') || '<li class="text-sm">暂无拆解</li>';
+
+      document.getElementById('jobAnalysisContent').innerHTML = `
+        <div class="sub-card" style="background:#FEFCE8; border-color:#FDE047;">
+          <h4 style="margin:0 0 10px;">📊 岗位匹配度 4 维度打分明细（总分：${typeof a.matchScore === 'number' ? a.matchScore + ' / 100' : '--'}）</h4>
+          ${breakdownHtml}
         </div>
-      `).join('');
+        <div class="sub-card">
+          <h4 style="margin:0 0 8px;">🎯 JD 核心业务痛点（公司招人最想解决的事）</h4>
+          <ul style="margin:0; padding-left:18px; font-size:14px;">${painHtml}</ul>
+        </div>
+        <div class="sub-card">
+          <h4 style="margin:0 0 8px;">🔎 隐形考察点与筛选门槛（JD 没明说但面试官很看重）</h4>
+          <ul style="margin:0; padding-left:18px; font-size:14px;">${hiddenHtml}</ul>
+        </div>
+      `;
 
       // Tab 2: Resume Tuning + Per-project Interview Pitch
       const ord = a.resumeOrder || {};
@@ -2246,7 +2325,7 @@ ${jdText.slice(0, 5000)}
             ${formatEditablePills(rw.improved)}
           </div>
           <div class="flex-between mt-2">
-            <span class="text-sm">提示：可直接点击橙色胶囊修改为你自己的真实数据</span>
+            <span class="text-sm">提示：可直接点击橙色胶囊修改为你自己的真实信息</span>
             <button class="btn btn-outline btn-sm" onclick="copyCleanEditable('rw-editable-${idx}')">复制简历句子</button>
           </div>
           ${rw.pitch ? `
@@ -2265,26 +2344,54 @@ ${jdText.slice(0, 5000)}
       currentTemplateType = 'work';
       renderTemplateDemo();
 
-      // Tab 3: Embedded Interview
+      // Tab 3: Self Introduction (based on optimized resume)
+      const si = a.selfIntro || {};
+      if (si.script) {
+        const hlHtml = (si.matchHighlights || []).map(h => `<li style="margin-bottom:4px;">${escapeHtml(h)}</li>`).join('');
+        document.getElementById('selfIntroContent').innerHTML = `
+          ${si.focusNote ? `<div class="notice-box notice-ok" style="margin-top:0; margin-bottom:12px;"><div><strong>💡 构思说明：</strong>${escapeHtml(si.focusNote)}</div></div>` : ''}
+          <div class="sub-card">
+            <div class="flex-between mb-2">
+              <span class="tag yellow">1–1.5 分钟口语版（无生硬量化数字）</span>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span class="text-sm">${si.script.length} 字</span>
+                <button class="btn btn-primary btn-sm" onclick="copyCleanEditable('self-intro-editable')">一键复制自我介绍</button>
+              </div>
+            </div>
+            <div id="self-intro-editable" style="font-size:15px; background:#FFF; padding:14px 16px; border-radius:8px; border:1px solid var(--border); line-height:1.85; white-space:pre-line;">
+              ${formatEditablePills(si.script)}
+            </div>
+          </div>
+          ${hlHtml ? `
+          <div class="sub-card">
+            <h4 style="margin:0 0 8px;">🎯 这段自我介绍暗藏的 JD 匹配点</h4>
+            <ul style="margin:0; padding-left:18px; font-size:14px;">${hlHtml}</ul>
+          </div>` : ''}
+        `;
+      } else {
+        document.getElementById('selfIntroContent').innerHTML = `<div class="sub-card text-sm">该历史记录为旧版生成，点击上方「✏️ 识别有误？手动修正 → 保存并重新 AI 分析」即可生成基于优化后简历的专属自我介绍。</div>`;
+      }
+
+      // Tab 4: Embedded Interview
       if (record.interview) {
         document.getElementById('embeddedInterviewEmpty').classList.add('hidden');
         document.getElementById('embeddedInterviewContent').classList.remove('hidden');
-        document.getElementById('embeddedInterviewContent').innerHTML = buildInterviewHtml(record.interview, false);
+        document.getElementById('embeddedInterviewContent').innerHTML = buildInterviewHtml(record.interview, false, record.interviewElapsed);
       } else {
         document.getElementById('embeddedInterviewEmpty').classList.remove('hidden');
         document.getElementById('embeddedInterviewContent').classList.add('hidden');
       }
 
-      // Tab 4: Embedded Research
+      // Tab 5: Embedded Research
       document.getElementById('embCompanyInput').value = record.company || '';
       if (record.research) {
         document.getElementById('embeddedResearchContent').classList.remove('hidden');
-        document.getElementById('embeddedResearchContent').innerHTML = buildResearchHtml(record.research);
+        document.getElementById('embeddedResearchContent').innerHTML = buildResearchHtml(record.research, record.researchElapsed);
       } else {
         document.getElementById('embeddedResearchContent').classList.add('hidden');
       }
 
-      switchResultTab('greetings');
+      switchResultTab('jobAnalysis');
       switchView('result');
     }
 
@@ -2299,11 +2406,6 @@ ${jdText.slice(0, 5000)}
       if (!el) return;
       const clean = el.innerText.replace(/\s+/g, ' ').trim();
       copyText(clean, '已复制成品内容（自动去除方括号）');
-    }
-
-    function copyGreeting(idx) {
-      const g = currentRecord?.analysis?.greetings?.[idx];
-      if (g) copyText(g.text, '已复制开场白，去 Boss 粘贴发送吧！');
     }
 
     function switchTemplateType(type) {
@@ -2326,7 +2428,7 @@ ${jdText.slice(0, 5000)}
           ${formatEditablePills(tpl.example)}
         </div>
         <div class="flex-between mt-2">
-          <span class="text-sm">⚠️ 橙色胶囊请点击替换为你的真实数据，切勿照搬造假</span>
+          <span class="text-sm">⚠️ 橙色胶囊请点击替换为你的真实信息，切勿照搬造假</span>
           <button class="btn btn-primary btn-sm" onclick="copyCleanEditable('tpl-editable-box')">复制成品经历</button>
         </div>
       `;
@@ -2387,6 +2489,12 @@ ${jdText.slice(0, 5000)}
       const errEl = document.getElementById('reanalyzeError');
       errEl.classList.add('hidden');
 
+      if (!profile.experienceLevel) {
+        errEl.textContent = '请先在右上角「求职档案」中必选当前求职阶段 / 工作年限。';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
       const newComp = document.getElementById('editResCompany').value.trim() || '未知公司';
       const newTitle = document.getElementById('editResJobTitle').value.trim() || '目标岗位';
       const newJd = document.getElementById('editResJdText').value.trim();
@@ -2398,20 +2506,25 @@ ${jdText.slice(0, 5000)}
 
       const btn = document.getElementById('reanalyzeBtn');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> 重新 AI 分析中...';
+      const stopTimer = startLiveTimer(sec => {
+        btn.innerHTML = `<span class="spinner"></span> 重新分析中 (${sec})`;
+      });
       try {
         const newAnalysis = await runDeepAnalysisAI(newJd, newComp, newTitle);
+        const elapsed = stopTimer();
         currentRecord.company = newComp;
         currentRecord.jobTitle = newTitle;
         currentRecord.jdText = newJd;
         currentRecord.analysis = newAnalysis;
+        currentRecord.elapsed = elapsed;
         if (!currentRecord.jdSource.includes('已手动修正')) {
           currentRecord.jdSource = (currentRecord.jdSource || 'JD') + ' · 已手动修正';
         }
         saveJSON(STORE_KEYS.HISTORY, historyRecords);
         openRecordResult(currentRecord);
-        showToast('已按修正后的信息重新完成 AI 深度分析！');
+        showToast(`重新分析完成（耗时 ${elapsed}）！`);
       } catch (err) {
+        stopTimer();
         errEl.textContent = '重新分析失败：' + err.message;
         errEl.classList.remove('hidden');
       } finally {
@@ -2422,7 +2535,7 @@ ${jdText.slice(0, 5000)}
 
     function switchResultTab(tabName) {
       document.querySelectorAll('.rtab').forEach(b => b.classList.toggle('active', b.dataset.rtab === tabName));
-      ['greetings', 'resume', 'interview', 'research'].forEach(t => {
+      ['jobAnalysis', 'resume', 'selfIntro', 'interview', 'research'].forEach(t => {
         document.getElementById('rtab-' + t).classList.toggle('hidden', t !== tabName);
       });
     }
@@ -2443,7 +2556,7 @@ ${jdText.slice(0, 5000)}
 
       const expInterviewRule = getExperienceStrategy(profile.experienceLevel).interview;
 
-      const prompt = `你是一位带过很多团队的实战派业务总监，正在私下帮朋友突击辅导面试。请结合以下岗位信息（如已开启联网搜索，请优先参考近期真实面经与该岗位高频考题）生成接地气的【面试准备清单】。
+      const prompt = `你是一位带过很多团队的实战派业务总监，正在私下帮朋友突击辅导面试。请结合以下岗位信息生成接地气的【面试准备清单】。
 ${expInterviewRule}
 
 【公司】：${company || '未指定'}
@@ -2453,61 +2566,43 @@ ${jdText.slice(0, 5000)}
 ${resumePart}
 
 【去标准答案铁律（必须严格遵守）】：
-1. 拒绝教科书废话：绝对不要写“建议采用STAR法则，先说明背景再阐述行动”这种空泛套话，直接给出真人面试时开口就能用的大白话破题句和具体抓手。
-2. 精讲 + 快刷分层设计（兼顾深度与广度）：
-  - **第一层：核心精讲题（questions，5-6 题）**：
-    - 项目深挖题（覆盖简历中每个项目，每项 1-2 题）：必须点出简历里的具体项目名称，问得细一点——包括方案/技术/指标选型理由、核心难点与排查过程、个人分工边界与具体交付成果。
-    - JD 业务场景题（2-3 题）：紧扣目标岗位 JD 的核心职责与实际业务场景设问（如异常定位、业务策略调整、需求优先级取舍、跨团队对齐），考察真实业务解决思路。
-    - 每道精讲题必须严格拆分为 4 个字段：
-      - subtext（面试官潜台词）：一句话点破面试官真正想考察的顾虑。
-      - opener（口语破题示范）：直接给出第一句自然不端着的开口破题句。
-      - keyPoints（核心得分点）：数组形式，给 2-3 条具体落地的回答要点与避坑提醒。
-      - sampleAnswer（回答示范）：一段详尽、专业、逻辑严密的高水准面试回答示范（220-350字左右），如需候选人替换真实数字或项目细节，用方括号 [具体指标/细节] 标出，绝不编造虚假数据。
-  - **第二层：高频面经快刷池（highFreqPool，8-10 题）**：
-    - 必须深度结合上方目标岗位 JD 的核心职责、技能/工具要求与业务场景来提问题，补充 8-10 道与上方精讲题不重复的高频考题。
-    - 每题给：q（紧扣 JD 的高频原题）、focus（一句话点明核心考察点）、points（3 条具体可落地的答题要点，每条约 35-65 字）。
-3. 严禁编造经历：如有简历，必须直接点名简历里的真实项目来举例；如果简历里缺少某项经验，教候选人如何用“方法论迁移 + 诚实态度”巧妙化解，绝不教人撒谎。
-4. 反问问题要像内行人：禁止问“贵司的培训体系是什么”这种学生气问题，要问业务痛点、团队当前卡点或考核标准。
+1. 拒绝教科书废话：直接给出真人面试时开口就能用的大白话破题句和具体抓手。
+2. 精讲 + 快刷分层设计（兼顾深度与速度）：
+  - **第一层：核心精讲题（questions，4 题）**：
+    - 项目/实习/比赛深挖题（2 题）：点出简历里的具体经历名称，问清选型理由、核心难点与个人分工。
+    - JD 业务场景题（2 题）：紧扣目标岗位 JD 的核心职责与实际业务场景设问。
+    - 每道精讲题拆分为 4 个字段：subtext（面试官潜台词）、opener（口语破题示范）、keyPoints（2-3 条核心得分点与避坑提醒）、sampleAnswer（180-240字专业回答示范，缺细节处用 [具体细节] 标出）。
+  - **第二层：高频面经快刷池（highFreqPool，6 题）**：
+    - 深度结合上方目标岗位 JD 的核心职责、技能与业务场景，补充 6 道不重复的高频考题。
+    - 每题给：q（高频原题）、focus（一句话点明考察重点）、points（2-3 条简明答题要点）。
+3. 严禁编造经历；反问问题要像内行人。
 
 请严格返回以下 JSON 格式（不要输出 markdown 以外的任何多余文字）：
 {
   "company": "公司名",
   "jobTitle": "岗位名",
-  "focusPoints": ["面试官筛人时最看重的真实指标1（大白话拆解）", "2", "3"],
+  "focusPoints": ["面试官筛人时最看重的真实指标1", "2", "3"],
   "questions": [
     {
-      "category": "项目深挖 · [具体项目名称]",
-      "q": "针对该项目的细节追问",
+      "category": "项目深挖 · [具体经历名称]",
+      "q": "针对该经历的细节追问",
       "subtext": "一句话点破面试官真正想考察的顾虑",
       "opener": "直接给出第一句自然不端着的开口破题句……",
       "keyPoints": [
-        "核心得分点1（结合简历/业务的具体细节）",
-        "核心得分点2（排查思路或量化落地）",
-        "避坑提醒（千万别踩的雷）"
+        "核心得分点1",
+        "核心得分点2",
+        "避坑提醒"
       ],
-      "sampleAnswer": "一段220-350字详尽、专业的高水准面试回答示范，需补充的真实细节用[占位符]标出"
-    },
-    {
-      "category": "JD业务场景",
-      "q": "结合目标岗位 JD 职责的真实业务场景题",
-      "subtext": "一句话点破面试官考察目的",
-      "opener": "直接给出第一句自然不端着的开口破题句……",
-      "keyPoints": [
-        "核心得分点1（拆解顺序与验证逻辑）",
-        "核心得分点2（可落地的业务动作与推进节奏）",
-        "避坑提醒（避免空谈理论）"
-      ],
-      "sampleAnswer": "一段220-350字详尽、专业的高水准业务场景回答示范"
+      "sampleAnswer": "180-240字详尽、专业的高水准面试回答示范"
     }
   ],
   "highFreqPool": [
     {
-      "q": "紧扣目标岗位JD职责/技能/业务场景的高频真题1（与上方精讲题不重复）",
+      "q": "紧扣目标岗位JD的高频真题1",
       "focus": "一句话点明考察重点",
       "points": [
-        "核心答题要点1（35-65字）",
-        "核心答题要点2（35-65字）",
-        "核心答题要点3（35-65字）"
+        "核心答题要点1",
+        "核心答题要点2"
       ]
     }
   ],
@@ -2520,36 +2615,31 @@ ${resumePart}
 }`;
       const raw = await callAI({
         temperature: 0.4,
-        enableSearch: true,
+        enableSearch: false,
         messages: [{ role: 'user', content: prompt }]
       });
       return extractJSON(raw);
     }
 
-    function buildInterviewHtml(data, showJumpResearch) {
+    function buildInterviewHtml(data, showJumpResearch, elapsed) {
+      const timerHtml = elapsed ? `<div class="mb-2"><span class="timer-badge">⏱️ 面试清单生成耗时 ${escapeHtml(elapsed)}</span></div>` : '';
       const focusHtml = (data.focusPoints || []).map(f => `<li style="margin-bottom:6px;">${escapeHtml(f)}</li>`).join('');
       const qHtml = (data.questions || []).map((item, i) => {
-        const hasStructured = item.subtext || item.opener || (Array.isArray(item.keyPoints) && item.keyPoints.length) || item.sampleAnswer;
-        let bodyHtml = '';
-        if (hasStructured) {
-          const kpList = Array.isArray(item.keyPoints)
-            ? item.keyPoints.map(kp => `<li style="margin-bottom:4px;">${escapeHtml(kp)}</li>`).join('')
-            : (item.keyPoints ? `<li>${escapeHtml(item.keyPoints)}</li>` : '');
-          bodyHtml = `
-            <ul style="margin:8px 0 0; padding-left:18px; font-size:13.8px; line-height:1.75; color:var(--text);">
-              ${item.subtext ? `<li style="margin-bottom:6px;"><strong>【面试官潜台词】</strong>：${escapeHtml(item.subtext)}</li>` : ''}
-              ${item.opener ? `<li style="margin-bottom:6px;"><strong>【口语破题示范】</strong>：${escapeHtml(item.opener)}</li>` : ''}
-              ${kpList ? `<li style="margin-bottom:6px;"><strong>【核心得分点】</strong>：<ul style="margin:4px 0 0; padding-left:18px;">${kpList}</ul></li>` : ''}
-              ${item.sampleAnswer ? `<li style="margin-bottom:2px;"><strong>【回答示范】</strong>：<div style="margin-top:6px; background:#FFF; border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:14px; line-height:1.8; white-space:pre-line;">${formatEditablePills(item.sampleAnswer)}</div><div style="margin-top:6px; text-align:right;"><button class="btn btn-outline btn-sm" data-copy="${escapeHtml(item.sampleAnswer)}" onclick="copyText(this.dataset.copy, '已复制回答示范')">复制回答示范</button></div></li>` : ''}
-            </ul>
-          `;
-        } else {
-          bodyHtml = `<div class="text-sm" style="color:var(--text); white-space:pre-line;"><strong>回答思路：</strong>${escapeHtml(item.framework || '')}</div>`;
-        }
+        const kpList = Array.isArray(item.keyPoints)
+          ? item.keyPoints.map(kp => `<li style="margin-bottom:4px;">${escapeHtml(kp)}</li>`).join('')
+          : (item.keyPoints ? `<li>${escapeHtml(item.keyPoints)}</li>` : '');
+        const bodyHtml = `
+          <ul style="margin:8px 0 0; padding-left:18px; font-size:13.8px; line-height:1.75; color:var(--text);">
+            ${item.subtext ? `<li style="margin-bottom:6px;"><strong>【面试官潜台词】</strong>：${escapeHtml(item.subtext)}</li>` : ''}
+            ${item.opener ? `<li style="margin-bottom:6px;"><strong>【口语破题示范】</strong>：${escapeHtml(item.opener)}</li>` : ''}
+            ${kpList ? `<li style="margin-bottom:6px;"><strong>【核心得分点】</strong>：<ul style="margin:4px 0 0; padding-left:18px;">${kpList}</ul></li>` : ''}
+            ${item.sampleAnswer ? `<li style="margin-bottom:2px;"><strong>【回答示范】</strong>：<div style="margin-top:6px; background:#FFF; border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:14px; line-height:1.8; white-space:pre-line;">${formatEditablePills(item.sampleAnswer)}</div><div style="margin-top:6px; text-align:right;"><button class="btn btn-outline btn-sm" data-copy="${escapeHtml(item.sampleAnswer)}" onclick="copyText(this.dataset.copy, '已复制回答示范')">复制回答示范</button></div></li>` : ''}
+          </ul>
+        `;
         return `
         <div class="sub-card">
           <div class="flex-between mb-2">
-            <span class="tag ${String(item.category || '').includes('场景') ? 'yellow' : 'green'}">${escapeHtml(item.category || (i < 2 ? '项目深挖' : 'JD业务场景'))}</span>
+            <span class="tag ${String(item.category || '').includes('场景') ? 'yellow' : 'green'}">${escapeHtml(item.category || (i < 2 ? '经历深挖' : 'JD业务场景'))}</span>
             <span class="text-sm">精讲第 ${i + 1} 题</span>
           </div>
           <div style="font-weight:700; margin-bottom:6px; font-size:14.8px;">Q${i + 1}：${escapeHtml(item.q)}</div>
@@ -2595,11 +2685,12 @@ ${resumePart}
         : '';
 
       return `
+        ${timerHtml}
         <div class="sub-card" style="background:#FEFCE8; border-color:#FDE047;">
           <h4 style="margin:0 0 8px;">01 看懂岗位重点</h4>
           <ul style="margin:0; padding-left:18px; font-size:14px;">${focusHtml}</ul>
         </div>
-        <h4 style="margin:18px 0 10px;">02 核心精讲面试题与详尽回答示范</h4>
+        <h4 style="margin:18px 0 10px;">02 核心精讲面试题与回答示范</h4>
         ${qHtml}
         ${poolHtml}
         <h4 style="margin:18px 0 10px;">${poolList.length ? '04' : '03'} 面前待办清单（可勾选）</h4>
@@ -2614,13 +2705,20 @@ ${resumePart}
       if (!currentRecord) return;
       document.getElementById('embeddedInterviewEmpty').classList.add('hidden');
       document.getElementById('embeddedInterviewLoading').classList.remove('hidden');
+      const loadText = document.getElementById('embeddedInterviewLoadingText');
+      const stopTimer = startLiveTimer(sec => {
+        loadText.textContent = `正在结合简历与 JD 拆解面试考察重点与必考追问... (已用时 ${sec})`;
+      });
       try {
         const res = await fetchInterviewPrepAI(currentRecord.jdText, currentRecord.company, currentRecord.jobTitle, true);
+        const elapsed = stopTimer();
         currentRecord.interview = res;
+        currentRecord.interviewElapsed = elapsed;
         saveJSON(STORE_KEYS.HISTORY, historyRecords);
-        document.getElementById('embeddedInterviewContent').innerHTML = buildInterviewHtml(res, false);
+        document.getElementById('embeddedInterviewContent').innerHTML = buildInterviewHtml(res, false, elapsed);
         document.getElementById('embeddedInterviewContent').classList.remove('hidden');
       } catch (err) {
+        stopTimer();
         document.getElementById('embeddedInterviewEmpty').classList.remove('hidden');
         showToast('生成失败：' + err.message);
       } finally {
@@ -2642,18 +2740,26 @@ ${resumePart}
         return;
       }
       const btn = document.getElementById('soloIntBtn');
+      const loadText = document.getElementById('soloIntLoadingText');
       btn.disabled = true;
       document.getElementById('soloIntLoading').classList.remove('hidden');
       document.getElementById('soloIntResult').classList.add('hidden');
+      const stopTimer = startLiveTimer(sec => {
+        btn.innerHTML = `<span class="spinner"></span> 生成中 (${sec})`;
+        loadText.textContent = `正在生成结构化面试准备清单... (已用时 ${sec})`;
+      });
       try {
         const res = await fetchInterviewPrepAI(jd, company, title, useResume);
-        document.getElementById('soloIntResult').innerHTML = buildInterviewHtml(res, true);
+        const elapsed = stopTimer();
+        document.getElementById('soloIntResult').innerHTML = buildInterviewHtml(res, true, elapsed);
         document.getElementById('soloIntResult').classList.remove('hidden');
       } catch (err) {
+        stopTimer();
         errEl.textContent = '生成失败：' + err.message;
         errEl.classList.remove('hidden');
       } finally {
         btn.disabled = false;
+        btn.textContent = '✨ 生成面试准备清单';
         document.getElementById('soloIntLoading').classList.add('hidden');
       }
     }
@@ -2672,29 +2778,20 @@ ${resumePart}
     // ==================== COMPANY RESEARCH (EMBEDDED & STANDALONE) ====================
     async function fetchCompanyResearchAI(companyName, roleName, jdText = '') {
       const jdSection = (jdText && jdText.trim().length > 10)
-        ? `\n【参考岗位 JD（请务必仔细提取其中的核心业务方向、职责痛点、工具/方法、跨部门协作及考核要求，用来定制岗位相关的面试反问）】：\n${jdText.slice(0, 3500)}\n`
-        : '\n（未提供完整 JD，请结合该岗位典型业务场景与核心职责设计岗位相关反问）\n';
+        ? `\n【参考岗位 JD】：\n${jdText.slice(0, 3500)}\n`
+        : '\n（未提供完整 JD，请结合该岗位典型业务场景设计岗位相关反问）\n';
 
       const prompt = `你是一位帮求职者排雷的资深背调专家，说话犀利客观、直击要害。请针对公司【${companyName}】（应聘岗位：${roleName || '通用岗位'}）输出求职排雷调研。${jdSection}
-【核心排雷与反问维度】：
-1. 皮包/空壳/外包特征：是否属于人力外包/驻场、成立时间极短却全网招高薪、注册资本实缴为0、参保人数极少（如小于10人或与宣传规模严重不符）、频繁变更法人/地址或存在大量关联马甲公司。
-2. 隐形加班与管理文化：社交媒体（脉脉/小红书/知乎）上是否有“大小周、996、单休、无偿加班、强制打卡、PUA、试用期恶意辞退、克扣绩效/年终奖”等一线吐槽。
-3. 业务与发薪稳定性：主营业务是真实自研产品/稳定现金流，还是纯靠画饼融资、代运营/电销套壳或处于收缩裁员期。
-4. 拿来就用的面试反问子弹（共输出 6 题，分为两类，均需自然得体、不撕破脸但能套出真信息）：
-  - **岗位业务类（3-4 题，强绑定 JD 信息）**：必须直接参考上面【参考岗位 JD】里提到的具体业务模块、职责重点、指标目标、协作对象或工具体系来发问。
-  - **团队排雷类（2-3 题）**：温和套出真实加班强度与排期节奏、岗位是新增还是替补（团队稳定性）、以及转正/绩效考核的真实口径。
-
-【防幻觉铁律（必须严格遵守）】：
+【防幻觉铁律】：
 1. 绝不编造不存在的融资、新闻、诉讼、裁员传闻或具体数据！
-2. 如果该公司是信息极少的小微企业，或者你无法核实其真实工商与口碑信息，必须将 "isSmallOrUnknown" 设为 true，在 business 中如实写明，绝不强行编造。
-3. 所有风险提示必须标注信息来源属性（如“公开口碑反馈”“行业模式特征”“待核实信号”）。
+2. 如果该公司是信息极少的小微企业，必须将 "isSmallOrUnknown" 设为 true，在 business 中如实写明。
 
 请严格输出以下 JSON 格式（不要输出 markdown 以外的任何多余文字）：
 {
   "company": "${companyName}",
   "isSmallOrUnknown": false,
   "stage": "风险定性标签（如：正规成熟企业 / 疑似人力外包 / 强加班文化预警 / 信息极少高风险盲盒）",
-  "business": "3-5句话讲清主营业务、真实赚钱逻辑以及业务稳定性（信息不足时如实警示）",
+  "business": "3-5句话讲清主营业务、真实赚钱逻辑以及业务稳定性",
   "risks": [
     { "level": "风险", "text": "【皮包/外包排查】：具体排查结论或需重点核实的空壳/外包信号" },
     { "level": "风险", "text": "【加班与管理坑】：公开口碑中的加班强度、大小周或绩效/辞退风险" },
@@ -2707,14 +2804,13 @@ ${resumePart}
     { "type": "岗位业务", "q": "结合JD具体职责/业务方向的深度反问1" },
     { "type": "岗位业务", "q": "结合JD核心能力/工具或协作方式的深度反问2" },
     { "type": "岗位业务", "q": "结合JD阶段目标的深度反问3" },
-    { "type": "岗位业务", "q": "结合JD延伸业务场景的深度反问4" },
     { "type": "团队排雷", "q": "温和套出真实下班时间、项目排期节奏与加班机制的反问" },
     { "type": "团队排雷", "q": "温和套出团队人员结构、岗位是扩编还是补位以及绩效考核口径的反问" }
   ],
   "selfCheckTips": [
-    "打开企查查/天眼查：重点看【实缴资本】和【社保参保人数】（若宣传几百人但参保不到10人，大概率是空壳或皮包公司）",
-    "看【司法风险/开庭公告】：重点排查是否有大量【劳动争议/追索劳动报酬】记录（有则大概率拖欠工资或恶意辞退）",
-    "搜【小红书/脉脉】：搜索“公司简称 + 避雷 / 加班 / 面试”，留意 HR 是否频繁刷新同一岗位（常年挂着不招人可能是刷KPI或套方案）"
+    "打开企查查/天眼查：重点看【实缴资本】和【社保参保人数】",
+    "看【司法风险/开庭公告】：重点排查是否有大量【劳动争议/追索劳动报酬】记录",
+    "搜【小红书/脉脉】：搜索“公司简称 + 避雷 / 加班 / 面试”"
   ]
 }`;
       const raw = await callAI({
@@ -2725,7 +2821,8 @@ ${resumePart}
       return extractJSON(raw);
     }
 
-    function buildResearchHtml(d) {
+    function buildResearchHtml(d, elapsed) {
+      const timerHtml = elapsed ? `<div class="mb-2"><span class="timer-badge">⏱️ 公司背调耗时 ${escapeHtml(elapsed)}</span></div>` : '';
       const smallBanner = d.isSmallOrUnknown ? `
         <div class="notice-box notice-warn" style="margin-bottom:14px;">
           <div><strong>🛡️ 防幻觉诚实提示：</strong>该公司公开网络资料较少，系统已拒绝编造虚假动态。建议按下方「3 步工商自查清单」自行核实后再决定是否入职。</div>
@@ -2764,6 +2861,7 @@ ${resumePart}
       const tipsHtml = (d.selfCheckTips || []).map(t => `<li style="margin-bottom:4px;">${escapeHtml(t)}</li>`).join('');
 
       return `
+        ${timerHtml}
         ${smallBanner}
         <div class="sub-card">
           <div class="flex-between mb-2">
@@ -2779,7 +2877,7 @@ ${resumePart}
         <h4 style="margin:16px 0 8px;">📰 近期关键动态（面试加分项）</h4>
         <div class="sub-card"><ul style="margin:0; padding-left:18px; font-size:14px;">${newsHtml}</ul></div>
 
-        <h4 style="margin:16px 0 8px;">🎯 拿来就用的面试反问子弹（结合 JD 岗位业务 + 团队排雷）</h4>
+        <h4 style="margin:16px 0 8px;">🎯 拿来就用的面试反问子弹</h4>
         ${revHtml}
 
         <h4 style="margin:16px 0 8px;">🔎 建议补充自查清单</h4>
@@ -2794,21 +2892,30 @@ ${resumePart}
       const comp = document.getElementById('embCompanyInput').value.trim();
       if (!comp) { showToast('请先输入公司名称'); return; }
       const btn = document.getElementById('genEmbResearchBtn');
+      const loadText = document.getElementById('embeddedResearchLoadingText');
       btn.disabled = true;
       document.getElementById('embeddedResearchLoading').classList.remove('hidden');
       document.getElementById('embeddedResearchContent').classList.add('hidden');
+      const stopTimer = startLiveTimer(sec => {
+        btn.innerHTML = `<span class="spinner"></span> 调研中 ${sec}`;
+        loadText.textContent = `正在调研公司业务基本盘、风控口碑与近期动态... (已用时 ${sec})`;
+      });
       try {
         const res = await fetchCompanyResearchAI(comp, currentRecord.jobTitle, currentRecord.jdText || '');
+        const elapsed = stopTimer();
         currentRecord.company = comp;
         currentRecord.research = res;
+        currentRecord.researchElapsed = elapsed;
         saveJSON(STORE_KEYS.HISTORY, historyRecords);
         document.getElementById('resHeaderTitle').textContent = `${currentRecord.company} · ${currentRecord.jobTitle}`;
-        document.getElementById('embeddedResearchContent').innerHTML = buildResearchHtml(res);
+        document.getElementById('embeddedResearchContent').innerHTML = buildResearchHtml(res, elapsed);
         document.getElementById('embeddedResearchContent').classList.remove('hidden');
       } catch (err) {
+        stopTimer();
         showToast('背调失败：' + err.message);
       } finally {
         btn.disabled = false;
+        btn.textContent = '🔍 开始背景调研';
         document.getElementById('embeddedResearchLoading').classList.add('hidden');
       }
     }
@@ -2825,18 +2932,26 @@ ${resumePart}
         return;
       }
       const btn = document.getElementById('soloResBtn');
+      const loadText = document.getElementById('soloResLoadingText');
       btn.disabled = true;
       document.getElementById('soloResLoading').classList.remove('hidden');
       document.getElementById('soloResResult').classList.add('hidden');
+      const stopTimer = startLiveTimer(sec => {
+        btn.innerHTML = `<span class="spinner"></span> 调研中 (${sec})`;
+        loadText.textContent = `正在分析公司业务、风控口碑与近期动态... (已用时 ${sec})`;
+      });
       try {
         const res = await fetchCompanyResearchAI(comp, role, jd);
-        document.getElementById('soloResResult').innerHTML = buildResearchHtml(res);
+        const elapsed = stopTimer();
+        document.getElementById('soloResResult').innerHTML = buildResearchHtml(res, elapsed);
         document.getElementById('soloResResult').classList.remove('hidden');
       } catch (err) {
+        stopTimer();
         errEl.textContent = '背调失败：' + err.message;
         errEl.classList.remove('hidden');
       } finally {
         btn.disabled = false;
+        btn.textContent = '🔍 开始背景调研';
         document.getElementById('soloResLoading').classList.add('hidden');
       }
     }
@@ -2855,13 +2970,14 @@ ${resumePart}
           <div>
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
               <strong style="font-size:16px;">${escapeHtml(r.company)} · ${escapeHtml(r.jobTitle)}</strong>
-              <span class="tag ${String(r.analysis?.verdict || '').includes('推荐') ? 'green' : (String(r.analysis?.verdict || '').includes('跳过') ? 'red' : 'amber')}">${escapeHtml(r.analysis?.verdict || '已评估')}</span>
+              ${typeof r.analysis?.matchScore === 'number' ? `<span class="tag yellow">匹配度 ${r.analysis.matchScore} 分</span>` : ''}
+              <span class="tag ${String(r.analysis?.verdict || '').includes('推荐') ? 'green' : (String(r.analysis?.verdict || '').includes('谨慎') || String(r.analysis?.verdict || '').includes('跳过') ? 'red' : 'amber')}">${escapeHtml(r.analysis?.verdict || '已评估')}</span>
               <span class="tag">${escapeHtml(r.status || '待投递')}</span>
             </div>
-            <div class="text-sm mt-2">${escapeHtml(r.createdAt)} ｜ 来源：${escapeHtml(r.jdSource || 'JD')}</div>
+            <div class="text-sm mt-2">${escapeHtml(r.createdAt)} ｜ 来源：${escapeHtml(r.jdSource || 'JD')}${r.elapsed ? ` ｜ 耗时：${escapeHtml(r.elapsed)}` : ''}</div>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="btn btn-primary btn-sm" onclick="openRecordByIndex(${idx})">查看分析与开场白</button>
+            <button class="btn btn-primary btn-sm" onclick="openRecordByIndex(${idx})">查看岗位解析与自我介绍</button>
             <button class="btn btn-outline btn-sm" onclick="deleteHistoryItem(${idx})">删除</button>
           </div>
         </div>
